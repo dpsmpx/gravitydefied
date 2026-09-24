@@ -34,7 +34,6 @@ public class Reader {
 
 					buf[nameLen] = din.readByte();
 					if (buf[nameLen] == 0) {
-						// tmp = (new String(buf, 0, nameLen, "CP-1251"));
 						tmp = decodeCp1251(buf);
 						header.setName(i, j, tmp.replace('_', ' '));
 						continue label0;
@@ -43,6 +42,31 @@ public class Reader {
 				} while (true);
 			}
 
+		}
+
+		if (din.available() >= 4) {
+			int tCount = din.readInt();
+			if (tCount >= 0 && tCount <= MAX_VALID_TRACKS) {
+				header.setCount(3, tCount);
+				label0:
+				for (int j = 0; j < header.getCount(3); j++) {
+					int trackPointer = din.readInt();
+					header.setPointer(3, j, trackPointer);
+					int nameLen = 0;
+					do {
+						if (nameLen >= 40)
+							continue label0;
+
+						buf[nameLen] = din.readByte();
+						if (buf[nameLen] == 0) {
+							tmp = decodeCp1251(buf);
+							header.setName(3, j, tmp.replace('_', ' '));
+							continue label0;
+						}
+						nameLen++;
+					} while (true);
+				}
+			}
 		}
 		din.close();
 
