@@ -35,7 +35,7 @@ public class Loader {
 
 	private boolean perspectiveEnabled = true;
 	private boolean shadowsEnabled = true;
-	private int pointers[][] = new int[3][];
+	private int pointers[][] = new int[4][];
 	private int m_eaI = 0;
 	private int m_faI = 0;
 	private int m_aI = 0;
@@ -62,7 +62,7 @@ public class Loader {
 		m_vaI = new int[3];
 		m_nullI = 0;
 		m_fI = -1;
-		names = new String[3][];
+		names = new String[4][];
 		m_daI = 0;
 		m_distanceI = 0;
 		for (int j = 0; j < 3; j++) {
