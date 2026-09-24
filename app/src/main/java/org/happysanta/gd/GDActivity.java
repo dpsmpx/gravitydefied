@@ -105,6 +105,11 @@ public class GDActivity extends Activity implements Runnable {
 	private Replay ghostReplay;
 
 	@Override
+	protected void attachBaseContext(Context newBase) {
+		super.attachBaseContext(LanguageManager.wrap(newBase));
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
