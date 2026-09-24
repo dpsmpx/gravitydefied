@@ -137,10 +137,168 @@ public class Loader {
 				levels = new Level();
 			levels.readTrackData(dis);
 			dis.close();
+			if (j - 1 == IMPOSSIBLE_GROUP && k - 1 == IMPOSSIBLE_TRACK
+					&& "Impossible".equals(getLevelName(IMPOSSIBLE_GROUP, IMPOSSIBLE_TRACK))) {
+				addImpossibleBoundaryPlatforms(levels);
+			}
 			load(levels);
 		} catch (IOException _ex) {
 			_ex.printStackTrace();
 		}
+	}
+
+	private void addImpossibleBoundaryPlatforms(Level impossible) throws IOException {
+		if (impossible == null || impossible.pointsCount < 2)
+			return;
+		if (names == null || pointers == null || pointers.length < 3)
+			return;
+
+		Level firstSource = readTrackAt(FIRST_SOURCE_GROUP, FIRST_SOURCE_TRACK);
+		Level lastSource = null;
+		if (names[LAST_SOURCE_GROUP] != null && names[LAST_SOURCE_GROUP].length > 0)
+			lastSource = readTrackAt(LAST_SOURCE_GROUP, names[LAST_SOURCE_GROUP].length - 1);
+
+		int[][] prefix = buildBoundaryExtension(firstSource, impossible, true);
+		int[][] suffix = buildBoundaryExtension(lastSource, impossible, false);
+
+		int prefixCount = prefix == null ? 0 : prefix.length;
+		int suffixCount = suffix == null ? 0 : suffix.length;
+		if (prefixCount == 0 && suffixCount == 0) {
+			addFallbackStartPlatform(impossible);
+			addFallbackFinishPlatform(impossible);
+			return;
+		}
+
+		int[][] patched = new int[prefixCount + impossible.pointsCount + suffixCount][2];
+		int out = 0;
+		if (prefixCount > 0) {
+			System.arraycopy(prefix, 0, patched, out, prefixCount);
+			out += prefixCount;
+		}
+		System.arraycopy(impossible.points, 0, patched, out, impossible.pointsCount);
+		out += impossible.pointsCount;
+		if (suffixCount > 0)
+			System.arraycopy(suffix, 0, patched, out, suffixCount);
+
+		impossible.points = patched;
+		impossible.pointsCount = patched.length;
+	}
+
+	private int[][] buildBoundaryExtension(Level source, Level target, boolean start) {
+		if (source == null || source.points == null || source.pointsCount < 2
+				|| target.points == null || target.pointsCount < 2)
+			return null;
+
+		int markerIndex = findPointAtX(source, start ? source.startX : source.finishX, start);
+		if (start) {
+			if (markerIndex <= 0 || target.points[0][0] != target.startX)
+				return null;
+			int from = Math.max(0, markerIndex - IMPOSSIBLE_EXTENSION_POINTS);
+			int count = markerIndex - from;
+			if (count <= 0)
+				return null;
+
+			int dx = target.points[0][0] - source.points[markerIndex][0];
+			int dy = target.points[0][1] - source.points[markerIndex][1];
+			int[][] extension = new int[count][2];
+			for (int i = 0; i < count; i++) {
+				int sourceIndex = from + i;
+				extension[i][0] = source.points[sourceIndex][0] + dx;
+				extension[i][1] = source.points[sourceIndex][1] + dy;
+			}
+			return extension;
+		}
+
+		if (markerIndex < 0 || markerIndex >= source.pointsCount - 1
+				|| target.points[target.pointsCount - 1][0] != target.finishX)
+			return null;
+		int from = markerIndex + 1;
+		int to = Math.min(source.pointsCount - 1, markerIndex + IMPOSSIBLE_EXTENSION_POINTS);
+		int count = to - from + 1;
+		if (count <= 0)
+			return null;
+
+		int dx = target.points[target.pointsCount - 1][0] - source.points[markerIndex][0];
+		int dy = target.points[target.pointsCount - 1][1] - source.points[markerIndex][1];
+		int[][] extension = new int[count][2];
+		for (int i = 0; i < count; i++) {
+			int sourceIndex = from + i;
+			extension[i][0] = source.points[sourceIndex][0] + dx;
+			extension[i][1] = source.points[sourceIndex][1] + dy;
+		}
+		return extension;
+	}
+
+	private int findPointAtX(Level level, int x, boolean fromStart) {
+		if (level == null || level.points == null)
+			return -1;
+		if (fromStart) {
+			for (int i = 0; i < level.pointsCount; i++) {
+				if (level.points[i][0] == x)
+					return i;
+			}
+		} else {
+			for (int i = level.pointsCount - 1; i >= 0; i--) {
+				if (level.points[i][0] == x)
+					return i;
+			}
+		}
+		return -1;
+	}
+
+	private Level readTrackAt(int group, int track) throws IOException {
+		if (group < 0 || group >= pointers.length || pointers[group] == null
+				|| track < 0 || track >= pointers[group].length)
+			return null;
+
+		InputStream is = getLevelsInputStream("levels.mrg");
+		DataInputStream dis = new DataInputStream(is);
+		int remaining = pointers[group][track];
+		while (remaining > 0) {
+			int skipped = dis.skipBytes(remaining);
+			if (skipped <= 0)
+				throw new IOException("Unable to seek level track");
+			remaining -= skipped;
+		}
+
+		Level result = new Level();
+		result.readTrackData(dis);
+		dis.close();
+		return result;
+	}
+
+	private void addFallbackStartPlatform(Level level) {
+		if (level == null || level.pointsCount < 1)
+			return;
+		int baseX = level.points[0][0];
+		int baseY = level.points[0][1];
+		int[][] patched = new int[level.pointsCount + 3][2];
+		patched[0][0] = baseX - (24 << 13);
+		patched[0][1] = baseY;
+		patched[1][0] = baseX - (12 << 13);
+		patched[1][1] = baseY;
+		patched[2][0] = baseX - (6 << 13);
+		patched[2][1] = baseY;
+		System.arraycopy(level.points, 0, patched, 3, level.pointsCount);
+		level.points = patched;
+		level.pointsCount = patched.length;
+	}
+
+	private void addFallbackFinishPlatform(Level level) {
+		if (level == null || level.pointsCount < 1)
+			return;
+		int baseX = level.points[level.pointsCount - 1][0];
+		int baseY = level.points[level.pointsCount - 1][1];
+		int[][] patched = new int[level.pointsCount + 3][2];
+		System.arraycopy(level.points, 0, patched, 0, level.pointsCount);
+		patched[level.pointsCount][0] = baseX + (6 << 13);
+		patched[level.pointsCount][1] = baseY;
+		patched[level.pointsCount + 1][0] = baseX + (12 << 13);
+		patched[level.pointsCount + 1][1] = baseY;
+		patched[level.pointsCount + 2][0] = baseX + (24 << 13);
+		patched[level.pointsCount + 2][1] = baseY;
+		level.points = patched;
+		level.pointsCount = patched.length;
 	}
 
 	public void _ifIV(int j) {
