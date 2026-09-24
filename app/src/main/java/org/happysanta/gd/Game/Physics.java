@@ -1376,6 +1376,37 @@ public class Physics {
 
 	public void _ifiV(GameView j) {
 		j._tryvV();
+		drawBike(j);
+		m_lf._aiV(j);
+	}
+
+	public void drawReplayGhost(GameView j, Replay.Frame frame) {
+		if (j == null || frame == null)
+			return;
+
+		SimpleMenuElement[] previousState = m_aaan;
+		boolean previousCrashed = m_IZ;
+		boolean previousFinished = m_UZ;
+		SimpleMenuElement[] ghostState = new SimpleMenuElement[6];
+		for (int i = 0; i < ghostState.length; i++) {
+			ghostState[i] = new SimpleMenuElement();
+			ghostState[i].x = frame.x[i];
+			ghostState[i].y = frame.y[i];
+			ghostState[i].m_bI = frame.angle[i];
+		}
+		m_aaan = ghostState;
+		m_IZ = false;
+		m_UZ = false;
+		try {
+			drawBike(j);
+		} finally {
+			m_aaan = previousState;
+			m_IZ = previousCrashed;
+			m_UZ = previousFinished;
+		}
+	}
+
+	private void drawBike(GameView j) {
 		int i1 = m_aaan[3].x - m_aaan[4].x;
 		int j1 = m_aaan[3].y - m_aaan[4].y;
 		int k1;
@@ -1414,5 +1445,6 @@ public class Physics {
 		if (!m_UZ)
 			_aiIIV(j, i1, j1, l1, i2);
 		m_lf._aiV(j);
+
 	}
 }
