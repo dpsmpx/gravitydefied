@@ -225,6 +225,7 @@ public class LevelsManager {
 			dataSource.updateLevelMetadata(stored);
 			dataSource.updateLevel(stored);
 			dataSource.clearHighScores(levelId);
+			ReplayStore.deleteForLevel(levelId);
 
 			if (currentLevel != null && currentLevel.getId() == levelId) {
 				currentLevel = stored;
@@ -427,6 +428,7 @@ public class LevelsManager {
 
 	public void delete(Level level) {
 		dataSource.deleteLevel(level);
+		ReplayStore.deleteForLevel(level.getId());
 		File file = getMrgFileById(level.getId());
 		try {
 			if (file.exists()) {
@@ -594,6 +596,7 @@ public class LevelsManager {
 
 	public void resetAllLevelsSettings() {
 		dataSource.resetAllLevelsSettings();
+		ReplayStore.deleteForLevel(1);
 		deleteDefaultEditedLevels();
 
 		Level defaultLevel = dataSource.getLevel(1);
