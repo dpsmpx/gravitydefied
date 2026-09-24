@@ -1365,6 +1365,8 @@ public class Physics {
 			m_lf.levels._aIIV(j2, k2);
 		}
 
+		if (getLevelLoader() != null && getLevelLoader().isPerspectiveEnabled())
+			m_lf._aiIV(j, m_aaan[0].x, m_aaan[0].y);
 		if (m_UZ)
 			_aiIV(j, i1, j1);
 		if (!getGDActivity().isMenuShown())
