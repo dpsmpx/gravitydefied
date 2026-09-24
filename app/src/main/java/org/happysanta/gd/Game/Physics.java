@@ -1345,14 +1345,7 @@ public class Physics {
 
 	public void _ifiV(GameView j) {
 		j._tryvV();
-		Loader loader = getLevelLoader();
-		boolean perspectiveRenderOffset = loader != null && loader.isPerspectiveEnabled();
-		if (perspectiveRenderOffset) {
-			for (int i = 0; i < 6; i++)
-				m_aaan[i].y -= 0x10000;
-		}
-		try {
-			int i1 = m_aaan[3].x - m_aaan[4].x;
+		int i1 = m_aaan[3].x - m_aaan[4].x;
 		int j1 = m_aaan[3].y - m_aaan[4].y;
 		int k1;
 		if ((k1 = _doIII(i1, j1)) != 0) {
@@ -1372,8 +1365,6 @@ public class Physics {
 			m_lf.levels._aIIV(j2, k2);
 		}
 
-		if (perspectiveRenderOffset)
-			m_lf._aiIV(j, m_aaan[0].x, m_aaan[0].y);
 		if (m_UZ)
 			_aiIV(j, i1, j1);
 		if (!getGDActivity().isMenuShown())
@@ -1389,13 +1380,6 @@ public class Physics {
 		_ifiIIV(j, i1, j1, l1, i2);
 		if (!m_UZ)
 			_aiIIV(j, i1, j1, l1, i2);
-			m_lf._aiV(j);
-		} finally {
-			if (perspectiveRenderOffset) {
-				for (int i = 0; i < 6; i++)
-					m_aaan[i].y += 0x10000;
-			}
-		}
+		m_lf._aiV(j);
 	}
-
 }
