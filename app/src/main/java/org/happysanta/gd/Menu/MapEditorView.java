@@ -156,16 +156,21 @@ public class MapEditorView extends View {
             position++;
         }
 
-        if (position > 0 && track.points.get(position - 1).x == newX) {
-            newX++;
-            position++;
+        long lower = position > 0 ? track.points.get(position - 1).x : Integer.MIN_VALUE;
+        long upper = position < track.points.size() ? track.points.get(position).x : Integer.MAX_VALUE;
+
+        if (upper - lower <= 1) {
+            return;
         }
-        if (position < track.points.size() && track.points.get(position).x == newX) {
-            newX--;
-            position = 0;
-            while (position < track.points.size() && track.points.get(position).x < newX) {
-                position++;
-            }
+
+        if (newX <= lower) {
+            newX = (int) (lower + 1);
+        }
+        if (newX >= upper) {
+            newX = (int) (upper - 1);
+        }
+        if (newX <= lower || newX >= upper) {
+            return;
         }
 
         track.points.add(position, new Point(newX, newY));
