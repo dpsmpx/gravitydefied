@@ -12,6 +12,7 @@ import org.happysanta.gd.Command;
 import org.happysanta.gd.GDActivity;
 import org.happysanta.gd.Game.GameView;
 import org.happysanta.gd.Global;
+import org.happysanta.gd.LanguageManager;
 import org.happysanta.gd.Levels.InvalidTrackException;
 import org.happysanta.gd.Levels.Loader;
 import org.happysanta.gd.R;
