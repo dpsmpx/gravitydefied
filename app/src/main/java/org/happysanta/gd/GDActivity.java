@@ -432,8 +432,6 @@ public class GDActivity extends Activity implements Runnable {
 	@Override
 	public void run() {
 		Helpers.logDebug("!!! run()");
-		long l1;
-
 		if (!inited) {
 			Helpers.logDebug("run(): initing");
 			try {
@@ -581,17 +579,14 @@ public class GDActivity extends Activity implements Runnable {
 		menu.showMenu(0);
 		if (/*menu != null && */menu.canStartTrack())
 			restart(true);
-		l1 = 0L;
+		final int PHYSICS_STEP_UNITS = 655;
+		final double PHYSICS_UNITS_PER_NANO = 2620.0 / 30_000_000.0;
+		long lastPhysicsNanos = System.nanoTime();
+		double physicsAccumulator = 0.0;
 
 		// try {
 		Helpers.logDebug("start main loop");
 		while (alive) {
-			/*if (!alive) {
-				logDebug("!alive");
-				break;
-			}*/
-
-			// try {
 			if (physEngine._bytevI() != menu._jvI()) {
 				int j = gameView._intII(menu._jvI());
 				physEngine._doIV(j);
@@ -604,25 +599,36 @@ public class GDActivity extends Activity implements Runnable {
 					restart(true);
 			}
 
-			for (int i1 = m_nullI; i1 > 0 && alive; i1--) {
-			/* if (m_ifZ)
-				seconds += 20L; */
+			long nowPhysicsNanos = System.nanoTime();
+			long elapsedNanos = nowPhysicsNanos - lastPhysicsNanos;
+			lastPhysicsNanos = nowPhysicsNanos;
+
+			if (elapsedNanos < 0L) {
+				elapsedNanos = 0L;
+			} else if (elapsedNanos > 100_000_000L) {
+				elapsedNanos = 100_000_000L;
+			}
+			physicsAccumulator += elapsedNanos * PHYSICS_UNITS_PER_NANO;
+
+			while (physicsAccumulator >= PHYSICS_STEP_UNITS && alive) {
+				physicsAccumulator -= PHYSICS_STEP_UNITS;
+
 				if (m_forJ == 0L)
 					m_forJ = System.currentTimeMillis();
-				int k = 0;
-				if (/*physEngine != null && */(k = physEngine._dovI()) == 3 && m_byteJ == 0L) {
+
+				int k = physEngine._dovI(PHYSICS_STEP_UNITS);
+
+				if (k == 3 && m_byteJ == 0L) {
 					m_byteJ = System.currentTimeMillis() + 3000L;
 					gameView.showInfoMessage(getString(R.string.crashed), 3000);
-					//m_di.postInvalidate();
-					//m_di.serviceRepaints();
 				}
+
 				if (m_byteJ != 0L && m_byteJ < System.currentTimeMillis())
 					restart(true);
+
 				if (k == 5) {
 					finishedTime = System.currentTimeMillis();
 					gameView.showInfoMessage(getString(R.string.crashed), 3000);
-					//m_di.postInvalidate();
-					//m_di.serviceRepaints();
 					try {
 						long l2 = 1000L;
 						if (m_byteJ > 0L)
@@ -632,20 +638,15 @@ public class GDActivity extends Activity implements Runnable {
 					} catch (InterruptedException _ex) {
 					}
 					restart(true);
+					physicsAccumulator = 0.0;
 				} else if (k == 4) {
-					// logDebug("k == 4");
 					m_forJ = 0;
-					// seconds = 0;
 					startedTime = 0;
 					finishedTime = 0;
 					pausedTime = 0;
 				} else if (k == 1 || k == 2) {
 					finishedTime = System.currentTimeMillis();
-					// logDebug("game-run: k = " + k);
-				/* if (k == 2)
-					seconds -= 10L; */
 					goalLoop();
-					// menu.setLastTrackTime(seconds / 10L);
 					menu.setLastTrackTime((finishedTime - startedTime) / 10);
 					menu.showMenu(2);
 
@@ -656,6 +657,7 @@ public class GDActivity extends Activity implements Runnable {
 						break;
 					}
 				}
+
 				m_ifZ = k != 4;
 				if (m_ifZ && startedTime == 0) {
 					startedTime = System.currentTimeMillis();
@@ -667,25 +669,8 @@ public class GDActivity extends Activity implements Runnable {
 				break;
 			}
 
-			//try {
-			/*if (physEngine != null)*/
 			physEngine._charvV();
-			long l;
-			if ((l = System.currentTimeMillis()) - l1 < 30L) {
-				try {
-					synchronized (this) {
-						wait(Math.max(30L - (l - l1), 1L));
-					}
-				} catch (InterruptedException interruptedexception) {
-				}
-				l1 = System.currentTimeMillis();
-			} else {
-				l1 = l;
-			}
-			//m_di.postInvalidate();
-		/*} catch (Exception exception) {
-			exception.printStackTrace();
-		}*/
+			Thread.yield();
 		}
 		// } catch (Exception e) {
 		//	e.printStackTrace();

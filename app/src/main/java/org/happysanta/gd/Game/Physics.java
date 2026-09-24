@@ -639,16 +639,23 @@ public class Physics {
 	}
 
 	public synchronized int _dovI() {
+		return _dovI(m_YI);
+	}
+
+	public synchronized int _dovI(int simulationUnits) {
+		if (simulationUnits <= 0) {
+			return 0;
+		}
 		m_dZ = m_ifZ;
 		m_FZ = m_sZ;
 		m_XZ = m_OZ;
 		m_wZ = m_rZ;
 		if (m_vZ)
 			_pvV();
-		GameView._dovV();
+		GameView._dovV(simulationUnits);
 		_qvV();
 		int j;
-		if ((j = _uII(m_YI)) == 5 || m_mZ)
+		if ((j = _uII(simulationUnits)) == 5 || m_mZ)
 			return 5;
 		if (m_IZ)
 			return 3;
