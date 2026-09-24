@@ -163,10 +163,15 @@ public class Loader {
 
 		int prefixCount = prefix == null ? 0 : prefix.length;
 		int suffixCount = suffix == null ? 0 : suffix.length;
-		if (prefixCount == 0 && suffixCount == 0) {
+		if (prefixCount == 0) {
 			addFallbackStartPlatform(impossible);
+			prefix = null;
+			prefixCount = 0;
+		}
+		if (suffixCount == 0) {
 			addFallbackFinishPlatform(impossible);
-			return;
+			suffix = null;
+			suffixCount = 0;
 		}
 
 		int[][] patched = new int[prefixCount + impossible.pointsCount + suffixCount][2];
