@@ -119,7 +119,7 @@ public class LevelMenuElement
 	public void updateLevelsLine() {
 		if (showDate) {
 			tracksCountTextView.setText(Html.fromHtml(String.format(getString(R.string.levels_count_tpl),
-					level.getCountEasy() + " - " + level.getCountMedium() + " - " + level.getCountHard(), level.getShortAddedDate())));
+					level.getCountEasy() + " - " + level.getCountMedium() + " - " + level.getCountHard() + " - " + level.getCountEndless(), level.getShortAddedDate())));
 		} else {
 			tracksCountTextView.setText(level.getCountEasy() + " - " + level.getCountMedium() + " - " + level.getCountHard());
 		}
