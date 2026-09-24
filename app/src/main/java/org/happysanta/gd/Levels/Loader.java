@@ -31,6 +31,7 @@ public class Loader {
 	public int m_longI;
 	public int m_eI;
 	public int m_dI;
+	public int m_distanceI;
 
 	private boolean perspectiveEnabled = true;
 	private boolean shadowsEnabled = true;
@@ -63,6 +64,7 @@ public class Loader {
 		m_fI = -1;
 		names = new String[3][];
 		m_daI = 0;
+		m_distanceI = 0;
 		for (int j = 0; j < 3; j++) {
 			m_haI[j] = (int) ((long) (Physics.m_foraI[j] + 19660 >> 1) * (long) (Physics.m_foraI[j] + 19660 >> 1) >> 16);
 			m_vaI[j] = (int) ((long) (Physics.m_foraI[j] - 19660 >> 1) * (long) (Physics.m_foraI[j] - 19660 >> 1) >> 16);
@@ -170,6 +172,7 @@ public class Loader {
 		try {
 			m_longI = 0x80000000;
 			levels = l1;
+			m_distanceI = 0;
 			int j = levels.pointsCount;
 			if (m_saaI == null || m_daI < j) {
 				m_saaI = (int[][]) null;
@@ -235,7 +238,7 @@ public class Loader {
 		else if (j < m_aI) {
 			while (m_eaI > 0 && j < levels.points[--m_eaI][0]) ;
 		} else {
-			while (m_eaI < levels.pointsCount && j > levels.points[++m_eaI][0]) ;
+			while (m_eaI < levels.pointsCount - 1 && j > levels.points[++m_eaI][0]) ;
 			if (m_eaI > 0)
 				m_eaI--;
 			while (m_faI > 0 && k < levels.points[--m_faI][0]) ;
@@ -250,9 +253,8 @@ public class Loader {
 		byte byte1 = 2;
 		int l3 = n1.x >> 1;
 		int i4 = n1.y >> 1;
-		if (perspectiveEnabled)
-			i4 -= 0x10000;
 		int j4 = 0;
+		m_distanceI = 0;
 		int k4 = 0;
 		for (int l4 = m_eaI; l4 < m_faI; l4++) {
 			int k = levels.points[l4][0];
@@ -289,9 +291,10 @@ public class Loader {
 			} else {
 				byte0 = 2;
 			}
-			if (byte0 == 0 && (int) ((long) m_saaI[l4][0] * (long) n1.m_eI >> 16) + (int) ((long) m_saaI[l4][1] * (long) n1.m_dI >> 16) < 0) {
+			if (byte0 == 0) {
 				m_eI = m_saaI[l4][0];
 				m_dI = m_saaI[l4][1];
+				m_distanceI = (int) Math.sqrt((double) l5 * 65536.0D);
 				return 0;
 			}
 			if (byte0 != 1 || (int) ((long) m_saaI[l4][0] * (long) n1.m_eI >> 16) + (int) ((long) m_saaI[l4][1] * (long) n1.m_dI >> 16) >= 0)
