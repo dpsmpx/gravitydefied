@@ -405,32 +405,23 @@ public class GameView extends View {
 	}
 
 	private void drawGhost(Replay.Frame frame) {
-		if (frame == null || canvas == null) {
+		if (frame == null || canvas == null || physEngine == null) {
 			return;
 		}
 
 		int previousAlpha = paint.getAlpha();
 		Paint.Style previousStyle = paint.getStyle();
 		int previousColor = paint.getColor();
+		float previousStrokeWidth = paint.getStrokeWidth();
+		int saveCount = canvas.saveLayerAlpha(new RectF(0, 0, canvas.getWidth(), canvas.getHeight()), 82);
 
-		paint.setColor(0xff2878b5);
-		paint.setAlpha(82);
-		paint.setStyle(Paint.Style.STROKE);
-		paint.setStrokeWidth(3f);
+		physEngine.drawReplayGhost(this, frame);
 
-		drawLine(frame.x[2], frame.y[2], frame.x[0], frame.y[0]);
-		drawLine(frame.x[0], frame.y[0], frame.x[1], frame.y[1]);
-		drawLine(frame.x[0], frame.y[0], frame.x[3], frame.y[3]);
-		drawLine(frame.x[0], frame.y[0], frame.x[4], frame.y[4]);
-		drawLine(frame.x[3], frame.y[3], frame.x[4], frame.y[4]);
-		drawLine(frame.x[5], frame.y[5], frame.x[0], frame.y[0]);
-
-		drawLineWheel((frame.x[1] << 2) / (float) 0xFFFF, (frame.y[1] << 2) / (float) 0xFFFF, 9);
-		drawLineWheel((frame.x[2] << 2) / (float) 0xFFFF, (frame.y[2] << 2) / (float) 0xFFFF, 9);
-
+		canvas.restoreToCount(saveCount);
 		paint.setColor(previousColor);
 		paint.setAlpha(previousAlpha);
 		paint.setStyle(previousStyle);
+		paint.setStrokeWidth(previousStrokeWidth);
 	}
 
 	public void setMenu(Menu menu) {
