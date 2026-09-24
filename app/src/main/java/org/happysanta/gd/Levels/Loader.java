@@ -398,14 +398,15 @@ public class Loader {
 		levels._ifIIV(j, k);
 	}
 
-\tpublic int getPerspectiveMidpointOffsetY(int x1, int y1, int x2, int y2, int cameraX, int cameraY) {
-\t\tif (!perspectiveEnabled || levels == null)
-\t\t\treturn 0;
-\t\tint offset1 = levels.getPerspectiveMidpointOffsetY(x1 >> 1, y1 >> 1, cameraX >> 1, cameraY >> 1);
-\t\tint offset2 = levels.getPerspectiveMidpointOffsetY(x2 >> 1, y2 >> 1, cameraX >> 1, cameraY >> 1);
-\t\treturn (offset1 + offset2) / 2;
-\t}
-\n	public void _aiIV(GameView j, int k, int i1) {
+	public int getPerspectiveMidpointOffsetY(int x1, int y1, int x2, int y2, int cameraX, int cameraY) {
+		if (!perspectiveEnabled || levels == null)
+			return 0;
+		int offset1 = levels.getPerspectiveMidpointOffsetY(x1 >> 1, y1 >> 1, cameraX >> 1, cameraY >> 1);
+		int offset2 = levels.getPerspectiveMidpointOffsetY(x2 >> 1, y2 >> 1, cameraX >> 1, cameraY >> 1);
+		return (offset1 + offset2) / 2;
+	}
+
+	public void _aiIV(GameView j, int k, int i1) {
 		if (j != null) {
 			j.setColor(0, 170, 0);
 			k >>= 1;
