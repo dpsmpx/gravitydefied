@@ -1376,6 +1376,18 @@ public class Physics {
 
 	public void _ifiV(GameView j) {
 		j._tryvV();
+		if (m_IZ) {
+			int k2 = m_aaan[4].x;
+			int j2;
+			if ((j2 = m_aaan[3].x) >= k2) {
+				int l2 = j2;
+				j2 = k2;
+				k2 = l2;
+			}
+			m_lf.levels._aIIV(j2, k2);
+		}
+		if (getLevelLoader() != null && getLevelLoader().isPerspectiveEnabled())
+			m_lf._aiIV(j, m_aaan[0].x, m_aaan[0].y - 0x20000);
 		drawBike(j);
 		m_lf._aiV(j);
 	}
@@ -1416,19 +1428,7 @@ public class Physics {
 		}
 		int l1 = -j1;
 		int i2 = i1;
-		if (m_IZ) {
-			int k2 = m_aaan[4].x;
-			int j2;
-			if ((j2 = m_aaan[3].x) >= k2) {
-				int l2 = j2;
-				j2 = k2;
-				k2 = l2;
-			}
-			m_lf.levels._aIIV(j2, k2);
-		}
 
-		if (getLevelLoader() != null && getLevelLoader().isPerspectiveEnabled())
-			m_lf._aiIV(j, m_aaan[0].x, m_aaan[0].y - 0x20000);
 		if (m_UZ)
 			_aiIV(j, i1, j1);
 		if (!getGDActivity().isMenuShown())
@@ -1444,7 +1444,6 @@ public class Physics {
 		_ifiIIV(j, i1, j1, l1, i2);
 		if (!m_UZ)
 			_aiIIV(j, i1, j1, l1, i2);
-		m_lf._aiV(j);
-
 	}
+
 }
