@@ -104,6 +104,8 @@
 	<string name="vibrate_on_touch">Вибрация при касании</string>
 	<string name="keyboard_in_menu">Клавиатура в меню</string>
 	<string name="language">Язык</string>
+	<string name="editor_copy_suffix">Копия</string>
+	<string name="imported_levels">Импортированные уровни</string>
 	<string name="clear_highscore">Очистить рекорды</string>
 	<string name="full_reset">Полный сброс</string>
 	<string name="reset">Сброс</string>
