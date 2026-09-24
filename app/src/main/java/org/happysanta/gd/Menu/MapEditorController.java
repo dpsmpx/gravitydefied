@@ -18,6 +18,7 @@ import java.util.Locale;
 
 import static org.happysanta.gd.Helpers.getGDActivity;
 import static org.happysanta.gd.Helpers.getGameMenu;
+import static org.happysanta.gd.Helpers.getStringArray;
 import static org.happysanta.gd.Helpers.getString;
 import static org.happysanta.gd.Helpers.showAlert;
 import static org.happysanta.gd.Helpers.showConfirm;
@@ -154,7 +155,7 @@ public class MapEditorController {
         packScreen.addItem(new EditorActionMenuElement(getString(R.string.editor_track_library), this::openLibrary));
         packScreen.addItem(new EditorActionMenuElement(getString(R.string.editor_save_pack), () -> savePack(false)));
         packScreen.addItem(new EditorActionMenuElement(getString(R.string.editor_use_pack), this::usePack));
-        packScreen.addItem(new ActionMenuElement(getString(R.string.back), ActionMenuElement.BACK, home));
+        packScreen.addItem(new EditorActionMenuElement(getString(R.string.back), () -> show(home)));
         show(packScreen);
     }
 
@@ -184,7 +185,7 @@ public class MapEditorController {
         trackScreen.addItem(new EditorActionMenuElement(getString(R.string.editor_move_down), () -> moveTrackOrder(1)));
         trackScreen.addItem(new EditorActionMenuElement(getString(R.string.editor_duplicate_track), this::duplicateTrack));
         trackScreen.addItem(new EditorActionMenuElement(getString(R.string.editor_delete_track), this::deleteTrack));
-        trackScreen.addItem(new ActionMenuElement(getString(R.string.back), ActionMenuElement.BACK, packScreen));
+        trackScreen.addItem(new EditorActionMenuElement(getString(R.string.back), () -> show(packScreen)));
         show(trackScreen);
     }
 
@@ -206,7 +207,7 @@ public class MapEditorController {
         trackEditorScreen.addItem(new EditorActionMenuElement(getString(R.string.editor_zoom_out), () -> editorView.zoomBy(0.74f)));
         trackEditorScreen.addItem(new EditorActionMenuElement(getString(R.string.editor_fit), editorView::fitTrack));
         trackEditorScreen.addItem(new EditorActionMenuElement(getString(R.string.editor_save_track), () -> showTrack(workingGroup, workingTrack)));
-        trackEditorScreen.addItem(new ActionMenuElement(getString(R.string.back), ActionMenuElement.BACK, trackScreen));
+        trackEditorScreen.addItem(new EditorActionMenuElement(getString(R.string.back), () -> show(trackScreen)));
         show(trackEditorScreen);
     }
 
