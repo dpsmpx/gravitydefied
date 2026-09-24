@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -55,3 +55,14 @@ jobs:
           path: artifacts/GravityDefied-debug.apk
           if-no-files-found: error
           retention-days: 30
+
+      - name: Publish APK as GitHub Release
+        if: github.ref == 'refs/heads/modernize/android-15' || github.ref == 'refs/heads/master'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="android-build-${{ github.run_number }}"
+          gh release create "$TAG" artifacts/GravityDefied-debug.apk \
+            --target "${GITHUB_SHA}" \
+            --title "Gravity Defied Android build #${{ github.run_number }}" \
+            --generate-notes
