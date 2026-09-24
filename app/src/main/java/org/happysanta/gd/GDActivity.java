@@ -579,10 +579,7 @@ public class GDActivity extends Activity implements Runnable {
 		menu.showMenu(0);
 		if (/*menu != null && */menu.canStartTrack())
 			restart(true);
-		final int PHYSICS_STEP_UNITS = 655;
-		final double PHYSICS_UNITS_PER_NANO = 2620.0 / 30_000_000.0;
-		long lastPhysicsNanos = System.nanoTime();
-		double physicsAccumulator = 0.0;
+		long l1 = 0L;
 
 		// try {
 		Helpers.logDebug("start main loop");
@@ -599,33 +596,17 @@ public class GDActivity extends Activity implements Runnable {
 					restart(true);
 			}
 
-			long nowPhysicsNanos = System.nanoTime();
-			long elapsedNanos = nowPhysicsNanos - lastPhysicsNanos;
-			lastPhysicsNanos = nowPhysicsNanos;
-
-			if (elapsedNanos < 0L) {
-				elapsedNanos = 0L;
-			} else if (elapsedNanos > 100_000_000L) {
-				elapsedNanos = 100_000_000L;
-			}
-			physicsAccumulator += elapsedNanos * PHYSICS_UNITS_PER_NANO;
-
-			while (physicsAccumulator >= PHYSICS_STEP_UNITS && alive) {
-				physicsAccumulator -= PHYSICS_STEP_UNITS;
-
+			for (int i1 = m_nullI; i1 > 0 && alive; i1--) {
 				if (m_forJ == 0L)
 					m_forJ = System.currentTimeMillis();
-
-				int k = physEngine._dovI(PHYSICS_STEP_UNITS);
+				int k = physEngine._dovI();
 
 				if (k == 3 && m_byteJ == 0L) {
 					m_byteJ = System.currentTimeMillis() + 3000L;
 					gameView.showInfoMessage(getString(R.string.crashed), 3000);
 				}
-
 				if (m_byteJ != 0L && m_byteJ < System.currentTimeMillis())
 					restart(true);
-
 				if (k == 5) {
 					finishedTime = System.currentTimeMillis();
 					gameView.showInfoMessage(getString(R.string.crashed), 3000);
@@ -638,7 +619,6 @@ public class GDActivity extends Activity implements Runnable {
 					} catch (InterruptedException _ex) {
 					}
 					restart(true);
-					physicsAccumulator = 0.0;
 				} else if (k == 4) {
 					m_forJ = 0;
 					startedTime = 0;
@@ -670,8 +650,8 @@ public class GDActivity extends Activity implements Runnable {
 			}
 
 			physEngine._charvV();
-			Thread.yield();
 		}
+
 		// } catch (Exception e) {
 		//	e.printStackTrace();
 		//}
