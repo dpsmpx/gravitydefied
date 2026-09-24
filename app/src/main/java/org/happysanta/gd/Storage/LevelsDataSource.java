@@ -91,6 +91,22 @@ public class LevelsDataSource {
 		logDebug("LevelsDataSource.resetAllLevelsSettings: result = " + result);
 	}
 
+	public synchronized void updateLevelMetadata(Level level) {
+		ContentValues values = new ContentValues();
+		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_NAME, level.getName());
+		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_AUTHOR, level.getAuthor());
+		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_COUNT_EASY, level.getCountEasy());
+		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_COUNT_MEDIUM, level.getCountMedium());
+		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_COUNT_HARD, level.getCountHard());
+		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_COUNT_ENDLESS, level.getCountEndless());
+		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_ADDED, level.getAddedTs());
+		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_INSTALLED, level.getInstalledTs());
+		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_IS_DEFAULT, level.isDefault() ? 1 : 0);
+		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_API_ID, level.getApiId());
+		db.update(LevelsSQLiteOpenHelper.TABLE_LEVELS, values,
+				LevelsSQLiteOpenHelper.LEVELS_COLUMN_ID + " = " + level.getId(), null);
+	}
+
 	public synchronized void updateLevel(Level level) {
 		ContentValues values = new ContentValues();
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_UNLOCKED_EASY, level.getUnlockedEasy());
