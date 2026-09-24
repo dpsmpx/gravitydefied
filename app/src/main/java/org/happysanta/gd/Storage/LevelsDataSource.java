@@ -80,6 +80,7 @@ public class LevelsDataSource {
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_UNLOCKED_EASY, 0);
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_UNLOCKED_MEDIUM, 0);
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_UNLOCKED_HARD, 0);
+		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_UNLOCKED_ENDLESS, 0);
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_SELECTED_LEAGUE, 0);
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_SELECTED_LEVEL, 0);
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_SELECTED_TRACK, 0);
