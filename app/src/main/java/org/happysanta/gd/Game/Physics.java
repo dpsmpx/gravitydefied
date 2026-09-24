@@ -1386,15 +1386,8 @@ public class Physics {
 			}
 			m_lf.levels._aIIV(j2, k2);
 		}
-		if (getLevelLoader() != null && getLevelLoader().isPerspectiveEnabled()) {
-			int saveCount = j.saveCanvas();
-			j.translateCanvas(0, j.getScaledHeight() / 2f);
-			try {
-				m_lf._aiIV(j, m_aaan[0].x, m_aaan[0].y - 0x20000);
-			} finally {
-				j.restoreCanvas(saveCount);
-			}
-		}
+		if (getLevelLoader() != null && getLevelLoader().isPerspectiveEnabled())
+			m_lf._aiIV(j, m_aaan[0].x, m_aaan[0].y - 0x20000);
 		drawBike(j);
 		m_lf._aiV(j);
 	}
