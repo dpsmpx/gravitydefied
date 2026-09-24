@@ -14,6 +14,7 @@ import org.happysanta.gd.DoubleCallback;
 import org.happysanta.gd.GDActivity;
 import org.happysanta.gd.Global;
 import org.happysanta.gd.Levels.LevelHeader;
+import org.happysanta.gd.Levels.LevelPackEditor;
 import org.happysanta.gd.Levels.Reader;
 import org.happysanta.gd.Menu.Menu;
 import org.happysanta.gd.Menu.MenuScreen;
@@ -117,11 +118,123 @@ public class LevelsManager {
 		return currentLevel;
 	}
 
+	private static final String DEFAULT_EDITED_MRG_NAME = "default-edited.mrg";
+
 	public File getCurrentLevelsFile() {
 		if (currentLevel.getId() > 1)
 			return getMrgFileById(currentLevel.getId());
 
-		return null;
+		File edited = getDefaultEditedLevelsFile();
+		return edited.isFile() && edited.canRead() ? edited : null;
+	}
+
+	public File getDefaultEditedLevelsFile() {
+		return new File(getLevelsDirectory(), DEFAULT_EDITED_MRG_NAME);
+	}
+
+	public LevelPackEditor.Pack readPack(Level level) throws Exception {
+		if (level == null) {
+			throw new IOException("No level pack");
+		}
+
+		if (level.getId() == 1) {
+			File edited = getDefaultEditedLevelsFile();
+			if (edited.isFile() && edited.canRead()) {
+				try (InputStream in = new FileInputStream(edited)) {
+					return LevelPackEditor.read(in, level.getName(), level.getAuthor());
+				}
+			}
+			try (InputStream in = getGDActivity().getAssets().open("levels.mrg")) {
+				return LevelPackEditor.read(in, level.getName(), level.getAuthor());
+			}
+		}
+
+		File file = getMrgFileById(level.getId());
+		if (file == null || !file.isFile() || !file.canRead()) {
+			throw new IOException("Unable to read level pack");
+		}
+		try (InputStream in = new FileInputStream(file)) {
+			return LevelPackEditor.read(in, level.getName(), level.getAuthor());
+		}
+	}
+
+	public long saveEditedPack(long levelId, LevelPackEditor.Pack pack) throws Exception {
+		if (levelId <= 0) {
+			File temp = File.createTempFile("gravitydefied-editor-", ".mrg", getGDActivity().getCacheDir());
+			try {
+				try (OutputStream out = new FileOutputStream(temp)) {
+					LevelPackEditor.write(pack, out);
+				}
+				return install(temp, pack.name, pack.author, 0);
+			} finally {
+				if (temp.exists()) {
+					temp.delete();
+				}
+			}
+		}
+
+		File target = levelId == 1 ? getDefaultEditedLevelsFile() : getMrgFileById(levelId);
+		if (target == null) {
+			throw new IOException("Unable to save level pack");
+		}
+
+		File parent = target.getParentFile();
+		if (parent != null && !parent.isDirectory() && !parent.mkdirs()) {
+			throw new IOException("Unable to create level directory");
+		}
+
+		File temp = new File(target.getAbsolutePath() + ".tmp");
+		try {
+			try (OutputStream out = new FileOutputStream(temp)) {
+				LevelPackEditor.write(pack, out);
+			}
+			if (target.exists() && !target.delete()) {
+				throw new IOException("Unable to replace level pack");
+			}
+			if (!temp.renameTo(target)) {
+				throw new IOException("Unable to finalize level pack");
+			}
+
+			Level stored = dataSource.getLevel(levelId);
+			if (stored == null) {
+				throw new IOException("Level metadata was not found");
+			}
+			stored.setName(pack.name);
+			stored.setAuthor(pack.author);
+			stored.setCount(
+					pack.groups[0].size(),
+					pack.groups[1].size(),
+					pack.groups[2].size(),
+					pack.groups[3].size()
+			);
+			stored.setSize((int) target.length());
+			stored.setUnlocked(0, 0, -1, 0);
+			stored.setUnlockedLevels(1);
+			stored.setUnlockedLeagues(0);
+			if (stored.getSelectedLevel() >= LevelPackEditor.GROUPS) {
+				stored.setSelectedLevel(0);
+			}
+			int selectedGroup = stored.getSelectedLevel();
+			if (pack.groups[selectedGroup].isEmpty()) {
+				stored.setSelectedLevel(0);
+				selectedGroup = 0;
+			}
+			if (stored.getSelectedTrack() >= pack.groups[selectedGroup].size()) {
+				stored.setSelectedTrack(0);
+			}
+			dataSource.updateLevelMetadata(stored);
+			dataSource.updateLevel(stored);
+			dataSource.clearHighScores(levelId);
+
+			if (currentLevel != null && currentLevel.getId() == levelId) {
+				currentLevel = stored;
+			}
+			return levelId;
+		} finally {
+			if (temp.exists()) {
+				temp.delete();
+			}
+		}
 	}
 
 	private boolean mrgIsAvailable(long id) {
@@ -481,9 +594,27 @@ public class LevelsManager {
 
 	public void resetAllLevelsSettings() {
 		dataSource.resetAllLevelsSettings();
+		deleteDefaultEditedLevels();
+
+		Level defaultLevel = dataSource.getLevel(1);
+		if (defaultLevel != null) {
+			defaultLevel.setName("GDTR original");
+			defaultLevel.setAuthor("Codebrew Software");
+			defaultLevel.setCount(10, 10, 10, 1);
+			defaultLevel.setSize(8105);
+			dataSource.updateLevelMetadata(defaultLevel);
+			dataSource.updateLevel(defaultLevel);
+		}
 
 		logDebug("All levels now: " + dataSource.getAllLevels());
 		logDebug("Level#1: " + dataSource.getLevel(1));
+	}
+
+	private void deleteDefaultEditedLevels() {
+		File file = getDefaultEditedLevelsFile();
+		if (file.isFile() && !file.delete()) {
+			logDebug("LevelsManager: unable to delete default edited level file");
+		}
 	}
 
 	private static final String LEVELS_DIRECTORY_NAME = "GDLevels";
