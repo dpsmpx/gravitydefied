@@ -303,7 +303,7 @@ public class LevelsManager {
 					completedCount += completed[i];
 				}
 
-				double totalCount = level.getCountEasy() + level.getCountMedium() + level.getCountHard();
+				double totalCount = level.getCountEasy() + level.getCountMedium() + level.getCountHard() + level.getCountEndless();
 				double per = completedCount / totalCount * 100;
 
 				stat.put(String.valueOf(level.getApiId()), per);
