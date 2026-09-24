@@ -31,7 +31,11 @@ import org.happysanta.gd.Menu.Views.MenuLinearLayout;
 import org.happysanta.gd.Menu.Views.MenuTextView;
 import org.happysanta.gd.Menu.Views.MenuTitleLinearLayout;
 import org.happysanta.gd.Menu.Views.ObservableScrollView;
+import org.happysanta.gd.Storage.HighScores;
 import org.happysanta.gd.Storage.LevelsManager;
+import org.happysanta.gd.Storage.Replay;
+import org.happysanta.gd.Storage.ReplayRecorder;
+import org.happysanta.gd.Storage.ReplayStore;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -97,6 +101,8 @@ public class GDActivity extends Activity implements Runnable {
 	private MenuTextView portedTextView;
 	private int buttonHeight = 60;
 	public LevelsManager levelsManager;
+	private final ReplayRecorder replayRecorder = new ReplayRecorder();
+	private Replay ghostReplay;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -618,6 +624,14 @@ public class GDActivity extends Activity implements Runnable {
 					m_forJ = System.currentTimeMillis();
 				int k = physEngine._dovI();
 
+				if (k != 4 && startedTime == 0L) {
+					startedTime = System.currentTimeMillis();
+					replayRecorder.start();
+				}
+
+				if (startedTime > 0L && replayRecorder.isRecording())
+					replayRecorder.record(physEngine, getRaceElapsedMillis());
+
 				if (k == 3 && m_byteJ == 0L) {
 					m_byteJ = System.currentTimeMillis() + 3000L;
 					gameView.showInfoMessage(getString(R.string.crashed), 3000);
@@ -642,10 +656,13 @@ public class GDActivity extends Activity implements Runnable {
 					startedTime = 0;
 					finishedTime = 0;
 					pausedTime = 0;
+					replayRecorder.cancel();
 				} else if (k == 1 || k == 2) {
 					finishedTime = System.currentTimeMillis();
+					long completedTimeCs = (finishedTime - startedTime - pausedTime) / 10L;
+					saveBestReplay(completedTimeCs);
 					goalLoop();
-					menu.setLastTrackTime((finishedTime - startedTime) / 10);
+					menu.setLastTrackTime(completedTimeCs);
 					menu.showMenu(2);
 
 					if (menu.canStartTrack())
@@ -657,9 +674,6 @@ public class GDActivity extends Activity implements Runnable {
 				}
 
 				m_ifZ = k != 4;
-				if (m_ifZ && startedTime == 0) {
-					startedTime = System.currentTimeMillis();
-				}
 			}
 
 			if (!alive) {
@@ -842,6 +856,9 @@ public class GDActivity extends Activity implements Runnable {
 			return;
 		}
 
+		replayRecorder.cancel();
+		loadBestReplay();
+
 		physEngine._doZV(true);
 		// logDebug("[GDActivity] restart(): 1");
 		m_forJ = 0;
@@ -855,6 +872,81 @@ public class GDActivity extends Activity implements Runnable {
 		// logDebug("[GDActivity] restart(): 2");
 		gameView._casevV();
 		// logDebug("[GDActivity] restart(): 3");
+	}
+
+	private void loadBestReplay() {
+		if (gameView == null || levelsManager == null || menu == null) {
+			ghostReplay = null;
+			if (gameView != null)
+				gameView.setGhostReplay(null);
+			return;
+		}
+		long levelId = levelsManager.getCurrentId();
+		int levelIndex = menu.getSelectedLevel();
+		int trackIndex = menu.getSelectedTrack();
+		ghostReplay = ReplayStore.load(levelId, levelIndex, trackIndex);
+		gameView.setGhostReplay(ghostReplay);
+	}
+
+	private void saveBestReplay(long timeCs) {
+		if (timeCs <= 0L || levelsManager == null || menu == null) {
+			replayRecorder.cancel();
+			return;
+		}
+
+		int levelIndex = menu.getSelectedLevel();
+		int trackIndex = menu.getSelectedTrack();
+		long levelId = levelsManager.getCurrentId();
+
+		Replay replay = replayRecorder.finish(levelId, levelIndex, trackIndex, timeCs);
+		if (replay == null) {
+			return;
+		}
+
+		long existingRecord = getBestTrackRecord(levelId, levelIndex, trackIndex);
+		try {
+			if (ReplayStore.saveIfBetter(levelId, levelIndex, trackIndex, replay, existingRecord)) {
+				ghostReplay = replay;
+				gameView.setGhostReplay(ghostReplay);
+			}
+		} catch (Exception e) {
+			logDebug("Replay save failed: " + e.getMessage());
+		}
+	}
+
+	private long getBestTrackRecord(long levelId, int levelIndex, int trackIndex) {
+		if (levelId <= 0 || levelsManager == null) {
+			return 0L;
+		}
+
+		try {
+			HighScores scores = levelsManager.getHighScores(levelIndex, trackIndex);
+			long best = Long.MAX_VALUE;
+			for (int league = 0; league < 4; league++) {
+				for (int place = 0; place < 3; place++) {
+					long time = scores.getTime(league, place);
+					if (time > 0L && time < best)
+						best = time;
+				}
+			}
+			return best == Long.MAX_VALUE ? 0L : best;
+		} catch (Exception e) {
+			return 0L;
+		}
+	}
+
+	public long getRaceElapsedMillis() {
+		if (startedTime <= 0L) {
+			return -1L;
+		}
+
+		long now = System.currentTimeMillis();
+		long currentPaused = pausedTime;
+		if (pausedTimeStarted > 0L) {
+			currentPaused += Math.max(0L, now - pausedTimeStarted);
+		}
+
+		return Math.max(0L, now - startedTime - currentPaused);
 	}
 
 	public void destroyApp(final boolean restart) {
