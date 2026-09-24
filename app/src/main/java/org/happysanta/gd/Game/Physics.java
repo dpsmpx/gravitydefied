@@ -1366,7 +1366,7 @@ public class Physics {
 		}
 
 		if (getLevelLoader() != null && getLevelLoader().isPerspectiveEnabled())
-			m_lf._aiIV(j, m_aaan[0].x, m_aaan[0].y);
+			m_lf._aiIV(j, m_aaan[0].x, m_aaan[0].y - 0x20000);
 		if (m_UZ)
 			_aiIV(j, i1, j1);
 		if (!getGDActivity().isMenuShown())
