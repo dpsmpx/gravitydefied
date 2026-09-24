@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class LevelsSQLiteOpenHelper extends SQLiteOpenHelper {
 
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	private static final String DATABASE_NAME = "levels.db";
 
 	public static final String TABLE_LEVELS = "levels";
@@ -18,6 +18,7 @@ public class LevelsSQLiteOpenHelper extends SQLiteOpenHelper {
 	public static final String LEVELS_COLUMN_COUNT_EASY = "count_easy";
 	public static final String LEVELS_COLUMN_COUNT_MEDIUM = "count_medium";
 	public static final String LEVELS_COLUMN_COUNT_HARD = "count_hard";
+	public static final String LEVELS_COLUMN_COUNT_ENDLESS = "count_endless";
 	public static final String LEVELS_COLUMN_ADDED = "added_ts";
 	public static final String LEVELS_COLUMN_INSTALLED = "installed_ts";
 	public static final String LEVELS_COLUMN_IS_DEFAULT = "is_default";
@@ -25,6 +26,7 @@ public class LevelsSQLiteOpenHelper extends SQLiteOpenHelper {
 	public static final String LEVELS_COLUMN_UNLOCKED_EASY = "unlocked_easy";
 	public static final String LEVELS_COLUMN_UNLOCKED_MEDIUM = "unlocked_medium";
 	public static final String LEVELS_COLUMN_UNLOCKED_HARD = "unlocked_hard";
+	public static final String LEVELS_COLUMN_UNLOCKED_ENDLESS = "unlocked_endless";
 	public static final String LEVELS_COLUMN_SELECTED_LEVEL = "selected_level";
 	public static final String LEVELS_COLUMN_SELECTED_TRACK = "selected_track";
 	public static final String LEVELS_COLUMN_SELECTED_LEAGUE = "selected_league";
@@ -44,6 +46,7 @@ public class LevelsSQLiteOpenHelper extends SQLiteOpenHelper {
 			+ LEVELS_COLUMN_COUNT_EASY + " INTEGER NOT NULL, "
 			+ LEVELS_COLUMN_COUNT_MEDIUM + " INTEGER NOT NULL, "
 			+ LEVELS_COLUMN_COUNT_HARD + " INTEGER NOT NULL, "
+			+ LEVELS_COLUMN_COUNT_ENDLESS + " INTEGER NOT NULL, "
 			+ LEVELS_COLUMN_ADDED + " INTEGER NOT NULL, "
 			+ LEVELS_COLUMN_INSTALLED + " INTEGER NOT NULL, "
 			+ LEVELS_COLUMN_IS_DEFAULT + " INTEGER NOT NULL, "
@@ -51,6 +54,7 @@ public class LevelsSQLiteOpenHelper extends SQLiteOpenHelper {
 			+ LEVELS_COLUMN_UNLOCKED_EASY + " INTEGER NOT NULL, "
 			+ LEVELS_COLUMN_UNLOCKED_MEDIUM + " INTEGER NOT NULL, "
 			+ LEVELS_COLUMN_UNLOCKED_HARD + " INTEGER NOT NULL, "
+			+ LEVELS_COLUMN_UNLOCKED_ENDLESS + " INTEGER NOT NULL, "
 			+ LEVELS_COLUMN_SELECTED_LEVEL + " INTEGER NOT NULL, "
 			+ LEVELS_COLUMN_SELECTED_TRACK + " INTEGER NOT NULL, "
 			+ LEVELS_COLUMN_SELECTED_LEAGUE + " INTEGER NOT NULL, "
@@ -114,7 +118,13 @@ public class LevelsSQLiteOpenHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+		if (oldVersion < 2) {
+			db.execSQL("ALTER TABLE " + TABLE_LEVELS + " ADD COLUMN " + LEVELS_COLUMN_COUNT_ENDLESS + " INTEGER NOT NULL DEFAULT 0");
+			db.execSQL("ALTER TABLE " + TABLE_LEVELS + " ADD COLUMN " + LEVELS_COLUMN_UNLOCKED_ENDLESS + " INTEGER NOT NULL DEFAULT 0");
+			db.execSQL("UPDATE " + TABLE_LEVELS + " SET " + LEVELS_COLUMN_COUNT_ENDLESS + " = 1, "
+					+ LEVELS_COLUMN_UNLOCKED_ENDLESS + " = CASE WHEN " + LEVELS_COLUMN_UNLOCKED_LEVELS + " >= 3 THEN 1 ELSE 0 END "
+					+ "WHERE " + LEVELS_COLUMN_IS_DEFAULT + " = 1");
+		}
 	}
 
 	private void createLevelsIndexes(SQLiteDatabase db) {
