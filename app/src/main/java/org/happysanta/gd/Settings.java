@@ -9,6 +9,9 @@ import static org.happysanta.gd.Helpers.getGDActivity;
 
 public class Settings {
 
+	private static final String LANGUAGE = "language";
+	private static final String LANGUAGE_DEFAULT = LanguageManager.ENGLISH;
+
 	private static final String LEVEL_ID = "level_id";
 	private static final int LEVEL_ID_DEFAULT = 0;
 
@@ -53,6 +56,7 @@ public class Settings {
 	}
 
 	public static void resetAll() {
+		setLanguage(LANGUAGE_DEFAULT);
 		setPerspectiveEnabled(PERSPECTIVE_ENABLED_DEFAULT);
 		setShadowsEnabled(SHADOWS_ENABLED_DEFAULT);
 		setDriverSpriteEnabled(DRIVER_SPRITE_ENABLED_DEFAULT);
@@ -63,6 +67,14 @@ public class Settings {
 		setInputOption(INPUT_OPTION_DEFAULT);
 		setLevelsSort(LEVELS_SORT_DEFAULT);
 		setName(NAME_CHARS_DEFALUT);
+	}
+
+	public static String getLanguage() {
+		return preferences.getString(LANGUAGE, LANGUAGE_DEFAULT);
+	}
+
+	public static void setLanguage(String language) {
+		setString(LANGUAGE, LanguageManager.RUSSIAN.equals(language) ? LanguageManager.RUSSIAN : LANGUAGE_DEFAULT);
 	}
 
 	public static long getLevelId() {
