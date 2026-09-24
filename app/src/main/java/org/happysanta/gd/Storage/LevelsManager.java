@@ -52,7 +52,7 @@ public class LevelsManager {
 			dataSource.open();
 
 			if (!dataSource.isDefaultLevelCreated()) {
-				Level level = dataSource.createLevel("GDTR original", "Codebrew Software", 10, 10, 10, 0, 0, true, 1);
+				Level level = dataSource.createLevel("GDTR original", "Codebrew Software", 10, 10, 10, 1, 0, 0, true, 1);
 				logDebug("LevelsManager: Default level created!");
 				logDebug(level);
 			}
@@ -161,6 +161,7 @@ public class LevelsManager {
 				header.getCount(0),
 				header.getCount(1),
 				header.getCount(2),
+				header.getCount(3),
 				0,
 				getTimestamp(),
 				false,
