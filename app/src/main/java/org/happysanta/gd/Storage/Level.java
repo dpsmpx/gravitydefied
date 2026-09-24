@@ -288,7 +288,8 @@ public class Level {
 		return unlockedLevels == 0
 				&& unlocked[0] == 0
 				&& unlocked[1] == 0
-				&& unlocked[2] == 0;
+				&& unlocked[2] == 0
+				&& unlocked[3] == 0;
 	}
 
 	@Override
