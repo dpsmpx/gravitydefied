@@ -1118,7 +1118,7 @@ public class Menu
 
 		if (item == startItem)
 			if (levelSelector.getSelectedOption() > levelSelector.getUnlockedCount() || trackSelector.getSelectedOption() > trackSelector.getUnlockedCount() || leagueSelector.getSelectedOption() > leagueSelector.getUnlockedCount()) {
-				showAlert("GD Classic", getString(R.string.complete_to_unlock), null);
+				showAlert(getString(R.string.app_name), getString(R.string.complete_to_unlock), null);
 				return;
 			} else {
 				gd.physEngine._avV();
