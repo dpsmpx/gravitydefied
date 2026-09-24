@@ -631,6 +631,7 @@ public class GDActivity extends Activity implements Runnable {
 
 				if (k != 4 && startedTime == 0L) {
 					startedTime = System.currentTimeMillis();
+					pausedTimeStarted = 0L;
 					replayRecorder.start();
 				}
 
@@ -871,6 +872,7 @@ public class GDActivity extends Activity implements Runnable {
 		startedTime = 0;
 		finishedTime = 0;
 		pausedTime = 0;
+		pausedTimeStarted = 0;
 		m_byteJ = 0;
 		if (flag)
 			gameView.showInfoMessage(levelLoader.getLevelName(menu.getSelectedLevel(), menu.getSelectedTrack()), 3000);
