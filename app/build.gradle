@@ -1,0 +1,36 @@
+plugins {
+    id("com.android.application")
+}
+
+android {
+    namespace = "org.happysanta.gd"
+    compileSdk = 36
+
+    defaultConfig {
+        applicationId = "org.happysanta.gd"
+        minSdk = 21
+        targetSdk = 36
+        versionCode = 30
+        versionName = "1.1.2"
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled = false
+            shrinkResources = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
+
+    lint {
+        abortOnError = false
+    }
+}
