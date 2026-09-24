@@ -1106,7 +1106,7 @@ public class GDActivity extends Activity implements Runnable {
 		} catch (Exception ignored) {
 		}
 		String path = uri.getLastPathSegment();
-		return path == null || path.isEmpty() ? "Imported levels" : path;
+		return path == null || path.isEmpty() ? getString(R.string.imported_levels) : path;
 	}
 
 	public void addCommand(Command cmd) {
