@@ -143,6 +143,7 @@ public class Menu
 	public MenuScreen managerScreen;
 	public InstalledLevelsMenuScreen managerInstalledScreen;
 	public DownloadLevelsMenuScreen managerDownloadScreen;
+	public MapEditorController mapEditorController;
 	// private MenuScreen managerDownloadOptionsScreen;
 	private SimpleMenuElementNew managerMenuItem;
 	public MenuScreen levelScreen;
@@ -321,6 +322,7 @@ public class Menu
 				mainMenu = new MenuScreen(getString(R.string.main), null);
 				playMenu = new MenuScreen(getString(R.string.play), mainMenu);
 				managerScreen = new MenuScreen(getString(R.string.mods), mainMenu);
+				mapEditorController = new MapEditorController(mainMenu);
 				optionsMenu = new MenuScreen(getString(R.string.options), mainMenu);
 				aboutScreen = new MenuScreen(getString(R.string.about) + " v" + getAppVersion(), mainMenu);
 				helpMenu = new MenuScreen(getString(R.string.help), mainMenu);
@@ -348,6 +350,7 @@ public class Menu
 				mainMenu.addItem(gameMenuItem);
 				//if (ENABLE_MANAGER)
 				mainMenu.addItem(new SimpleMenuElementNew(getString(R.string.mods), managerScreen, this));
+				mainMenu.addItem(new SimpleMenuElementNew(getString(R.string.map_editor), mapEditorController.home, this));
 				mainMenu.addItem(new SimpleMenuElementNew(getString(R.string.options), optionsMenu, this));
 				mainMenu.addItem(new SimpleMenuElementNew(getString(R.string.help), helpMenu, this));
 				mainMenu.addItem(aboutMenuItem);
