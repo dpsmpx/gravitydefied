@@ -1,11 +1,13 @@
-# Gravity Defied – Android port
-**Gravity Defied** is an iconic trial racing mobile game. It was originally developed by Codebrew Software in 2004 for J2ME platform.
+# Gravity Defied – Android port (dpsmpx fork)
 
-Codebrew has launched an Android version of the game in 2012, though it was totally remade. We are the ones who like classic version of Gravity Defied more, so we ported it to Android almost unchanged!
+**Gravity Defied** is an iconic trial racing mobile game originally developed by Codebrew Software in 2004 for the J2ME platform.
 
-This port includes all features of the original Gravity Defied. In addition, we have collected more than 1000 levels mods made by fans since 2007. You can install any mod and switch between mods directly from the game menu.
+This repository is an **independent community fork of the Android port created and maintained by Gregory Klushnikov and Evgeny Zinoviev**:
+[evgenyzinoviev/gravitydefied](https://github.com/evgenyzinoviev/gravitydefied).
 
-***We are not associated with Codebrew Software in any fashion. All rights to the original Gravity Defied, it's name, logotype, brand and all that stuff belongs to Codebrew Software.***
+The original Android port aimed to preserve the classic J2ME version of Gravity Defied on Android. This fork keeps that codebase as its foundation and adds substantial gameplay, rendering, localization, editor, replay, and Android-specific improvements.
+
+**This is not an official Codebrew Software release and this fork is not presented as the official Gravity Defied Android application.** The original port's README states that its authors were not affiliated with Codebrew Software.
 
 ## Changes in this fork
 
@@ -25,23 +27,74 @@ This repository is based on the Android port created and maintained by Gregory K
 
 These changes are maintained as modifications on top of the original Android port rather than as a replacement for the work of its original authors.
 
-# Download
-You can download the last version from:
+# Downloads
 
-* [Google Play](https://play.google.com/store/apps/details?id=org.happysanta.gd). Please note, that this (package name *org.happysanta.gd*) is **the only real** Gravity Defied at Google Play, and it's ads-free. Previously it has package name *com.ch1p.gd*, but unfortunately my developer account was suspended due to USA Crimea-related sanctions and the game with almost 1 million downloads disappeared from Google Play.
-* Our official site [gdtr.net](http://gdtr.net)
+## Original Android port
+
+The links in this subsection refer to the **original Android port project**, not to the dpsmpx fork.
+
+* [Google Play](https://play.google.com/store/apps/details?id=org.happysanta.gd). This link and the accompanying historical description are retained from the original port's README.
+* The original project's website: [gdtr.net](http://gdtr.net)
+
+## dpsmpx fork
+
+Releases of this fork are published here:
+
+* [GitHub Releases](https://github.com/dpsmpx/gravitydefied/releases)
+
+Source code for the fork is available in this repository.
+
+# Licensing, attribution and third-party rights
+
+## Original Android port
+
+The source project is licensed under the **GNU General Public License v2.0 (GPL-2.0)**. The original port authors are:
+
+* **[Gregory Klushnikov](https://vk.com/grishka)** — idea and the original J2ME-to-Android port.
+* **[Evgeny Zinoviev](https://vk.com/ez)** — porting, levels manager, levels API, graphics, and other development.
+
+This fork keeps their attribution and the original project's LICENSE.txt.
+
+## Gravity Defied IP and original game content
+
+The GPL license covers the GPL-licensed software; it does **not** by itself grant ownership of or permission to use third-party trademarks, logos, characters, artwork, level data, or other intellectual property belonging to the original game or other rights holders.
+
+This fork currently retains original Gravity Defied material inherited from the upstream Android port. The repository does **not** claim ownership of that third-party material.
+
+The original port's README states:
+
+* Gravity Defied's original name, logotype, brand, and related rights belong to **Codebrew Software**.
+* The Android port authors are not affiliated with Codebrew Software.
+
+Accordingly, the presence of the original game's name, branding, graphics, or level data in this repository should not be interpreted as a statement that **dpsmpx owns those materials or has received a separate trademark/copyright license for them**.
+
+For distribution outside the GPL-covered source-code rights, third-party intellectual-property rights must be considered separately.
+
+## GPL notice for this fork
+
+This repository contains modified versions of GPL-covered source files. The GPLv2 requires preserved license/copyright notices and, for modified files distributed under the license, appropriate notices identifying the modifications and their dates. See [LICENSE.txt](LICENSE.txt) for the full license text.
+
+GPL-covered source code from this fork is intended to remain available under the terms of GPL-2.0.
 
 # Authors
-### Port authors
 
-* **[Gregory Klushnikov](https://vk.com/grishka)** - idea and the original J2ME to Android port.
-* **[Evgeny Zinoviev](https://vk.com/ez)** - porting/levels manager/levels API/graphics/everything else development, graphics.
+### Fork maintainer
+
+* **dpsmpx** — independent maintainer of this fork and author of the changes documented in **Changes in this fork**.
+
+### Original Android port authors
+
+* **[Gregory Klushnikov](https://vk.com/grishka)** — idea and the original J2ME to Android port.
+* **[Evgeny Zinoviev](https://vk.com/ez)** — porting/levels manager/levels API/graphics/everything else development, graphics.
 
 ### Codebrew GDTR Authors
 
-* **Tors Björn Henrik Johansson** - system/game logic/interface, testing, levels design
-* **Set Elis Norman** - graphics/physics/mathematics/system/tools programming, levels design
-* **Per David Jacobsson** - physics programming, game graphics, levels design
+* **Tors Björn Henrik Johansson** — system/game logic/interface, testing, levels design
+* **Set Elis Norman** — graphics/physics/mathematics/system/tools programming, levels design
+* **Per David Jacobsson** — physics programming, game graphics, levels design
 
-For more information, please visit official site of Codebrew Software: [codebrew.se](http://codebrew.se)
+For more information about the original game project, please visit [Codebrew Software](http://codebrew.se).
 
+---
+
+**Project status:** this repository is an unofficial, independently maintained fork of the original Android port. The distinction between the GPL-covered port code and the original game's third-party intellectual property is intentional and should be preserved in redistribution and documentation.
