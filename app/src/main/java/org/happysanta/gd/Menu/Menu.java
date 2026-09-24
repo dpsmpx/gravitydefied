@@ -79,6 +79,7 @@ public class Menu
 	private OptionsMenuElement inputOptionItem;
 	private OptionsMenuElement lookAheadOptionItem;
 	private OptionsMenuElement keyboardInMenuOptionItem;
+	private OptionsMenuElement languageOptionItem;
 	private OptionsMenuElement vibrateOnTouchOptionItem;
 	private SimpleMenuElementNew clearHighscoreOptionItem;
 	private SimpleMenuElementNew fullResetItem;
@@ -389,6 +390,7 @@ public class Menu
 				lookAheadOptionItem = new OptionsMenuElement(getString(R.string.look_ahead), Settings.isLookAheadEnabled() ? 0 : 1, this, onOffStrings, true, optionsMenu);
 				vibrateOnTouchOptionItem = new OptionsMenuElement(getString(R.string.vibrate_on_touch), Settings.isVibrateOnTouchEnabled() ? 0 : 1, this, onOffStrings, true, optionsMenu);
 				keyboardInMenuOptionItem = new OptionsMenuElement(getString(R.string.keyboard_in_menu), Settings.isKeyboardInMenuEnabled() ? 0 : 1, this, onOffStrings, true, optionsMenu);
+				languageOptionItem = new OptionsMenuElement(getString(R.string.language), LanguageManager.RUSSIAN.equals(Settings.getLanguage()) ? 1 : 0, this, getStringArray(R.array.languages), false, optionsMenu);
 				clearHighscoreOptionItem = new SimpleMenuElementNew(getString(R.string.clear_highscore), eraseScreen, this);
 
 				// if (hasPointer)
@@ -401,6 +403,7 @@ public class Menu
 				optionsMenu.addItem(lookAheadOptionItem);
 				optionsMenu.addItem(vibrateOnTouchOptionItem);
 				optionsMenu.addItem(keyboardInMenuOptionItem);
+				optionsMenu.addItem(languageOptionItem);
 				optionsMenu.addItem(clearHighscoreOptionItem);
 				optionsMenu.addItem(createAction(ActionMenuElement.BACK));
 
@@ -1125,6 +1128,13 @@ public class Menu
 				gd.menuToGame();
 				return;
 			}
+
+		if (item == languageOptionItem) {
+			Settings.setLanguage(languageOptionItem.getSelectedOption() == 1 ? LanguageManager.RUSSIAN : LanguageManager.ENGLISH);
+			saveAll();
+			gd.restartApp();
+			return;
+		}
 
 		if (item == vibrateOnTouchOptionItem) {
 			Settings.setVibrateOnTouchEnabled(((OptionsMenuElement) item).getSelectedOption() == 0);
