@@ -1419,6 +1419,24 @@ public class Physics {
 	}
 
 	private void drawBike(GameView j) {
+\t\tint perspectiveOffsetY = 0;
+\t\tif (getLevelLoader() != null && getLevelLoader().isPerspectiveEnabled()) {
+\t\t\tperspectiveOffsetY = getLevelLoader().getPerspectiveMidpointOffsetY(
+\t\t\t\t\tm_aaan[1].x, m_aaan[1].y,
+\t\t\t\t\tm_aaan[2].x, m_aaan[2].y,
+\t\t\t\t\tm_aaan[0].x, m_aaan[0].y - 0x20000);
+\t\t}
+\t\tint canvasSave = j.saveCanvas();
+\t\tif (perspectiveOffsetY != 0)
+\t\t\tj.translateCanvas(0, perspectiveOffsetY);
+\t\ttry {
+\t\t\tdrawBikeInternal(j);
+\t\t} finally {
+\t\t\tj.restoreCanvas(canvasSave);
+\t\t}
+\t}
+
+\tprivate void drawBikeInternal(GameView j) {
 		int i1 = m_aaan[3].x - m_aaan[4].x;
 		int j1 = m_aaan[3].y - m_aaan[4].y;
 		int k1;

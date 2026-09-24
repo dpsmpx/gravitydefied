@@ -104,7 +104,23 @@ public class Level {
 		}
 	}
 
-	public synchronized void _aiIV(GameView view, int k, int i1) {
+\tpublic int getPerspectiveMidpointOffsetY(int x, int y, int cameraX, int cameraY) {
+\t\tif (points == null || pointsCount < 2)
+\t\t\treturn 0;
+\n\t\tint dx = cameraX - x;
+\t\tint dy = (cameraY + 0x320000) - y;
+\t\tint distance = Physics._doIII(dx, dy);
+\t\tif (distance < 4)
+\t\t\treturn 0;
+\n\t\tint denominator = distance >> 1 >> 1;
+\t\tif (denominator == 0)
+\t\t\treturn 0;
+\t\tint perspectiveY = y + (int) (((long) dy << 32) / (long) denominator >> 16);
+\t\tint normalScreenY = (y << 3) >> 16;
+\t\tint perspectiveScreenY = (perspectiveY << 3) >> 16;
+\t\treturn (normalScreenY - perspectiveScreenY) / 2;
+\t}
+\n	public synchronized void _aiIV(GameView view, int k, int i1) {
 		int k2 = 0;
 		int l2 = 0;
 		int j2;
