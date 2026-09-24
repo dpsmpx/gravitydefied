@@ -579,6 +579,7 @@ public class GDActivity extends Activity implements Runnable {
 		menu.showMenu(0);
 		if (/*menu != null && */menu.canStartTrack())
 			restart(true);
+		final int SIMULATION_SPEED = 2;
 		final long PHYSICS_CYCLE_NANOS = 30_000_000L;
 		final long PHYSICS_STEP_NANOS = PHYSICS_CYCLE_NANOS / m_nullI;
 		long lastPhysicsNanos = System.nanoTime();
@@ -606,10 +607,10 @@ public class GDActivity extends Activity implements Runnable {
 				elapsedNanos = 0L;
 			else if (elapsedNanos > PHYSICS_CYCLE_NANOS)
 				elapsedNanos = PHYSICS_CYCLE_NANOS;
-			physicsAccumulatorNanos += elapsedNanos;
+			physicsAccumulatorNanos += elapsedNanos * SIMULATION_SPEED;
 
 			int physicsSteps = 0;
-			while (physicsAccumulatorNanos >= PHYSICS_STEP_NANOS && physicsSteps < m_nullI && alive) {
+			while (physicsAccumulatorNanos >= PHYSICS_STEP_NANOS && physicsSteps < m_nullI * SIMULATION_SPEED && alive) {
 				physicsAccumulatorNanos -= PHYSICS_STEP_NANOS;
 				physicsSteps++;
 
