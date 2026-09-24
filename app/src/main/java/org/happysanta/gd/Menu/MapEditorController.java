@@ -61,7 +61,6 @@ public class MapEditorController {
         home.addItem(new EditorActionMenuElement(getString(R.string.editor_edit_pack), this::showPackList));
         home.addItem(new EditorActionMenuElement(getString(R.string.editor_edit_current), this::editCurrentPack));
         home.addItem(new EditorActionMenuElement(getString(R.string.editor_new_pack), this::newPack));
-        home.addItem(new ActionMenuElement(getString(R.string.editor_track_library), ActionMenuElement.BACK, getGameMenu()));
         home.addItem(new EditorActionMenuElement(getString(R.string.editor_download_mods), this::openMods));
         home.addItem(new EditorActionMenuElement(getString(R.string.install_mrg), this::importMrg));
         home.addItem(new ActionMenuElement(getString(R.string.back), ActionMenuElement.BACK, getGameMenu()));
@@ -480,12 +479,10 @@ public class MapEditorController {
     }
 
     private void openMods() {
-        getGameMenu().managerDownloadScreen.setNavTarget(home);
         getGameMenu().setCurrentMenu(getGameMenu().managerDownloadScreen, false);
     }
 
     private void openModsFromLibrary() {
-        getGameMenu().managerDownloadScreen.setNavTarget(libraryScreen);
         getGameMenu().setCurrentMenu(getGameMenu().managerDownloadScreen, false);
     }
 
