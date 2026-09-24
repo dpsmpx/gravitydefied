@@ -579,7 +579,10 @@ public class GDActivity extends Activity implements Runnable {
 		menu.showMenu(0);
 		if (/*menu != null && */menu.canStartTrack())
 			restart(true);
-		long l1 = 0L;
+		final long PHYSICS_CYCLE_NANOS = 30_000_000L;
+		final long PHYSICS_STEP_NANOS = PHYSICS_CYCLE_NANOS / m_nullI;
+		long lastPhysicsNanos = System.nanoTime();
+		long physicsAccumulatorNanos = 0L;
 
 		// try {
 		Helpers.logDebug("start main loop");
@@ -596,7 +599,20 @@ public class GDActivity extends Activity implements Runnable {
 					restart(true);
 			}
 
-			for (int i1 = m_nullI; i1 > 0 && alive; i1--) {
+			long nowPhysicsNanos = System.nanoTime();
+			long elapsedNanos = nowPhysicsNanos - lastPhysicsNanos;
+			lastPhysicsNanos = nowPhysicsNanos;
+			if (elapsedNanos < 0L)
+				elapsedNanos = 0L;
+			else if (elapsedNanos > PHYSICS_CYCLE_NANOS)
+				elapsedNanos = PHYSICS_CYCLE_NANOS;
+			physicsAccumulatorNanos += elapsedNanos;
+
+			int physicsSteps = 0;
+			while (physicsAccumulatorNanos >= PHYSICS_STEP_NANOS && physicsSteps < m_nullI && alive) {
+				physicsAccumulatorNanos -= PHYSICS_STEP_NANOS;
+				physicsSteps++;
+
 				if (m_forJ == 0L)
 					m_forJ = System.currentTimeMillis();
 				int k = physEngine._dovI();
@@ -619,6 +635,7 @@ public class GDActivity extends Activity implements Runnable {
 					} catch (InterruptedException _ex) {
 					}
 					restart(true);
+					physicsAccumulatorNanos = 0L;
 				} else if (k == 4) {
 					m_forJ = 0;
 					startedTime = 0;
