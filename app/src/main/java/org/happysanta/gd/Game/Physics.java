@@ -176,6 +176,9 @@ public class Physics {
 	private Loader m_lf;
 	private int m_EI;
 	private int m_CI;
+	private int m_lastNX;
+	private int m_lastNY;
+	private int m_penetrationI;
 	private boolean m_IZ;
 	private boolean m_mZ;
 	private int m_TI;
@@ -216,6 +219,9 @@ public class Physics {
 		m_cI = 0;
 		m_EI = 0;
 		m_CI = 0;
+		m_lastNX = 0;
+		m_lastNY = 0;
+		m_penetrationI = 0;
 		m_IZ = false;
 		m_mZ = false;
 		m_TI = 32768;
@@ -369,6 +375,9 @@ public class Physics {
 		_iIIV(m_lf._newvI(), m_lf._avI());
 		m_cI = 0;
 		m_kI = 0;
+		m_lastNX = 0;
+		m_lastNY = 0;
+		m_penetrationI = 0;
 		m_IZ = false;
 		m_mZ = false;
 		m_RZ = false;
@@ -685,8 +694,19 @@ public class Physics {
 			if (!flag && m_RZ)
 				return k1 == 3 ? 1 : 2;
 			if (k1 == 0) {
-				if (((j1 = i1 + j1 >> 1) - i1 >= 0 ? j1 - i1 : -(j1 - i1)) < 65)
-					return 5;
+				int midpoint = i1 + j1 >> 1;
+				if ((midpoint - i1 >= 0 ? midpoint - i1 : -(midpoint - i1)) < 8) {
+					_caIV(m_waI);
+					if (_baII(m_waI) == 0)
+						_copyState(m_vaI, m_waI);
+					i1 = midpoint;
+					j1 = j;
+					int tmpState = m_vaI;
+					m_vaI = m_waI;
+					m_waI = tmpState;
+					continue;
+				}
+				j1 = midpoint;
 			} else if (k1 == 3) {
 				m_RZ = true;
 				j1 = i1 + j1 >> 1;
@@ -712,6 +732,22 @@ public class Physics {
 		if (l1 > 0x460000)
 			m_IZ = true;
 		return 0;
+	}
+
+	private void _copyState(int from, int to) {
+		for (int i = 0; i < 6; i++) {
+			SimpleMenuElement src = m_Hak[i].m_ifan[from];
+			SimpleMenuElement dst = m_Hak[i].m_ifan[to];
+			dst.x = src.x;
+			dst.y = src.y;
+			dst.m_bI = src.m_bI;
+			dst.m_eI = src.m_eI;
+			dst.m_dI = src.m_dI;
+			dst.m_gotoI = src.m_gotoI;
+			dst.m_nullI = src.m_nullI;
+			dst.m_longI = src.m_longI;
+			dst.m_fI = src.m_fI;
+		}
 	}
 
 	private void _aIV(int j) {
@@ -849,6 +885,7 @@ public class Physics {
 
 	private int _baII(int j) {
 		byte byte0 = 2;
+		m_penetrationI = 0;
 		int i1;
 		i1 = (i1 = m_Hak[1].m_ifan[j].x >= m_Hak[2].m_ifan[j].x ? m_Hak[1].m_ifan[j].x : m_Hak[2].m_ifan[j].x) >= m_Hak[5].m_ifan[j].x ? i1 : m_Hak[5].m_ifan[j].x;
 		int j1;
@@ -887,6 +924,10 @@ public class Physics {
 			if (i3 != 0)
 				continue;
 			m_xaI = l2;
+			m_penetrationI = m_Hak[l2].m_aI >> 1;
+			m_penetrationI -= m_lf.m_distanceI;
+			if (m_penetrationI < 0)
+				m_penetrationI = 0;
 			byte0 = 0;
 			break;
 		}
@@ -897,8 +938,9 @@ public class Physics {
 	private void _caIV(int j) {
 		k k1;
 		SimpleMenuElement n1;
-		(n1 = (k1 = m_Hak[m_xaI]).m_ifan[j]).x += (int) ((long) m_EI * 3276L >> 16);
-		n1.y += (int) ((long) m_CI * 3276L >> 16);
+		int push = m_penetrationI > 0 ? m_penetrationI + 3276 : 3276;
+		(n1 = (k1 = m_Hak[m_xaI]).m_ifan[j]).x += (int) ((long) m_EI * (long) push >> 16);
+		n1.y += (int) ((long) m_CI * (long) push >> 16);
 		int i1;
 		int j1;
 		int l1;
@@ -918,6 +960,17 @@ public class Physics {
 			j2 = m_adI;
 		}
 		int k2 = _doIII(m_EI, m_CI);
+		if (k2 < 2048) {
+			int lastNormalLength = _doIII(m_lastNX, m_lastNY);
+			if (lastNormalLength < 2048)
+				return;
+			m_EI = m_lastNX;
+			m_CI = m_lastNY;
+			k2 = lastNormalLength;
+		} else {
+			m_lastNX = m_EI;
+			m_lastNY = m_CI;
+		}
 		m_EI = (int) (((long) m_EI << 32) / (long) k2 >> 16);
 		m_CI = (int) (((long) m_CI << 32) / (long) k2 >> 16);
 		int l2 = n1.m_eI;
@@ -1292,6 +1345,12 @@ public class Physics {
 
 	public void _ifiV(GameView j) {
 		j._tryvV();
+		Loader loader = getLevelLoader();
+		boolean perspectiveRenderOffset = loader != null && loader.isPerspectiveEnabled();
+		if (perspectiveRenderOffset) {
+			for (int i = 0; i < 6; i++)
+				m_aaan[i].y -= 0x10000;
+		}
 		int i1 = m_aaan[3].x - m_aaan[4].x;
 		int j1 = m_aaan[3].y - m_aaan[4].y;
 		int k1;
@@ -1312,8 +1371,7 @@ public class Physics {
 			m_lf.levels._aIIV(j2, k2);
 		}
 
-		Loader loader = getLevelLoader();
-		if (loader != null && loader.isPerspectiveEnabled())
+		if (perspectiveRenderOffset)
 			m_lf._aiIV(j, m_aaan[0].x, m_aaan[0].y);
 		if (m_UZ)
 			_aiIV(j, i1, j1);
@@ -1331,6 +1389,10 @@ public class Physics {
 		if (!m_UZ)
 			_aiIIV(j, i1, j1, l1, i2);
 		m_lf._aiV(j);
+		if (perspectiveRenderOffset) {
+			for (int i = 0; i < 6; i++)
+				m_aaan[i].y += 0x10000;
+		}
 	}
 
 }
