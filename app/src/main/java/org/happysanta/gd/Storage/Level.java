@@ -23,8 +23,9 @@ public class Level {
 	private int unlockedLeagues = 0;
 
 	public Level() {
-		count = new int[3];
-		unlocked = new int[3];
+		count = new int[4];
+		count[3] = 1;
+		unlocked = new int[4];
 	}
 
 	public Level(long id, String name, String author, int countEasy, int countMedium, int countHard, int addedTs, int size, long apiId) {
@@ -36,13 +37,13 @@ public class Level {
 		this.name = name;
 		this.author = author;
 		this.count = new int[]{
-				countEasy, countMedium, countHard
+				countEasy, countMedium, countHard, 1
 		};
 		this.addedTs = addedTs;
 		this.size = size;
 		this.apiId = apiId;
 		this.unlocked = new int[]{
-				unlockedEasy, unlockedMedium, unlockedHard
+				unlockedEasy, unlockedMedium, unlockedHard, 0
 		};
 	}
 
@@ -86,6 +87,10 @@ public class Level {
 		return this.count[2];
 	}
 
+	public int getCountEndless() {
+		return this.count[3];
+	}
+
 	public int getCount(int level) {
 		return this.count[level];
 	}
@@ -102,10 +107,19 @@ public class Level {
 		this.count[2] = count;
 	}
 
+	public void setCountEndless(int count) {
+		this.count[3] = count;
+	}
+
 	public void setCount(int easy, int medium, int hard) {
+		setCount(easy, medium, hard, 0);
+	}
+
+	public void setCount(int easy, int medium, int hard, int endless) {
 		setCountEasy(easy);
 		setCountMedium(medium);
 		setCountHard(hard);
+		setCountEndless(endless);
 	}
 
 	public long getAddedTs() {
@@ -184,6 +198,10 @@ public class Level {
 		return this.unlocked[2];
 	}
 
+	public int getUnlockedEndless() {
+		return this.unlocked[3];
+	}
+
 	public int getUnlocked(int level) {
 		//if (level < 3)
 		return unlocked[level];
@@ -208,10 +226,19 @@ public class Level {
 		this.unlocked[2] = unlocked;
 	}
 
+	public void setUnlockedEndless(int unlocked) {
+		this.unlocked[3] = unlocked;
+	}
+
 	public void setUnlocked(int easy, int medium, int hard) {
+		setUnlocked(easy, medium, hard, 0);
+	}
+
+	public void setUnlocked(int easy, int medium, int hard, int endless) {
 		setUnlockedEasy(easy);
 		setUnlockedMedium(medium);
 		setUnlockedHard(hard);
+		setUnlockedEndless(endless);
 	}
 
 	public void setUnlocked(int level, int value) {
@@ -273,12 +300,12 @@ public class Level {
 		s.append("id: " + id + ", ");
 		s.append("name: \"" + name + "\", ");
 		s.append("author: \"" + author + "\", ");
-		s.append("count: " + count[0] + "/" + count[1] + "/" + count[2] + ", ");
+		s.append("count: " + count[0] + "/" + count[1] + "/" + count[2] + "/" + count[3] + ", ");
 		s.append("added_ts: " + addedTs + ", ");
 		s.append("installed_ts: " + installedTs + ", ");
 		s.append("default: " + (_isDefault ? 1 : 0) + ", ");
 		s.append("api_id: " + apiId + ", ");
-		s.append("unlocked: " + unlocked[0] + "/" + unlocked[1] + "/" + unlocked[2] + ", ");
+		s.append("unlocked: " + unlocked[0] + "/" + unlocked[1] + "/" + unlocked[2] + "/" + unlocked[3] + ", ");
 		s.append("selected_track: " + selectedTrack + ", ");
 		s.append("selected_level: " + selectedLevel + ", ");
 		s.append("selected_league: " + selectedLeague + ", ");
