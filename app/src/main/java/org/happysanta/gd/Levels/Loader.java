@@ -19,6 +19,13 @@ public class Loader {
 	// public static final int m_forI = 1;
 	// public static final int m_intI = 2;
 	//public static final int m_doI;
+	private static final int IMPOSSIBLE_EXTENSION_POINTS = 5;
+	private static final int IMPOSSIBLE_GROUP = 3;
+	private static final int IMPOSSIBLE_TRACK = 0;
+	private static final int FIRST_SOURCE_GROUP = 0;
+	private static final int FIRST_SOURCE_TRACK = 0;
+	private static final int LAST_SOURCE_GROUP = 2;
+
 	// public static final int m_ifI = 1;
 
 	public File levelsFile;
