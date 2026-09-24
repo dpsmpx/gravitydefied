@@ -184,6 +184,8 @@ public class Loader {
 			m_faI = 0;
 			m_aI = l1.points[m_eaI][0];
 			m_kI = l1.points[m_faI][0];
+			boolean startMarkerSet = false;
+			boolean finishMarkerSet = false;
 			for (int k = 0; k < j; k++) {
 				int i1 = l1.points[(k + 1) % j][0] - l1.points[k][0];
 				int j1 = l1.points[(k + 1) % j][1] - l1.points[k][1];
@@ -194,11 +196,24 @@ public class Loader {
 				int j2 = Physics._doIII(k1, i2);
 				m_saaI[k][0] = (int) (((long) k1 << 32) / (long) j2 >> 16);
 				m_saaI[k][1] = (int) (((long) i2 << 32) / (long) j2 >> 16);
-				if (levels.m_gotoI == 0 && l1.points[k][0] > levels.startX)
-					levels.m_gotoI = k + 1;
-				if (levels.m_forI == 0 && l1.points[k][0] > levels.finishX)
+				if (!startMarkerSet) {
+					if (l1.points[k][0] == levels.startX) {
+						levels.m_gotoI = k;
+						startMarkerSet = true;
+					} else if (l1.points[k][0] > levels.startX) {
+						levels.m_gotoI = k + 1;
+						startMarkerSet = true;
+					}
+				}
+				if (!finishMarkerSet && l1.points[k][0] >= levels.finishX) {
 					levels.m_forI = k;
+					finishMarkerSet = true;
+				}
 			}
+			if (!startMarkerSet)
+				levels.m_gotoI = j > 1 ? 1 : 0;
+			if (!finishMarkerSet)
+				levels.m_forI = j > 1 ? j - 1 : 0;
 
 			m_eaI = 0;
 			m_faI = 0;
