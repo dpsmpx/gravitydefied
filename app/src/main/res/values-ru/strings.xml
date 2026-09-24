@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="no">Нет</string>
+	<string name="yes">Да</string>
+	<string name="back">Назад</string>
+	<string name="ok">ОК</string>
+	<string name="cancel">Отмена</string>
+	<string name="go_to_main">В главное меню</string>
+	<string name="on">Вкл.</string>
+	<string name="off">Выкл.</string>
+
+	<string name="app_name">Gravity Defied</string>
+	<string name="action_settings">Настройки</string>
+	<string name="exit">Выйти из игры</string>
+	<string name="main">Главное меню</string>
+	<string name="play_menu">Игра</string>
+	<string name="options">Настройки</string>
+	<string name="help">Помощь</string>
+	<string name="about">Об игре</string>
+
+	<string name="play">Играть</string>
+	<string name="start">Старт</string>
+
+	<string name="mods">Моды</string>
+	<string name="map_editor">Редактор карт</string>
+	<string name="editor_packs">Редактирование пакета</string>
+	<string name="editor_pack">Редактор пакета</string>
+	<string name="editor_track">Редактор трассы</string>
+	<string name="editor_track_editor">Рисование трассы</string>
+	<string name="editor_track_library">Библиотека трасс</string>
+	<string name="editor_edit_pack">Редактировать пакет</string>
+	<string name="editor_edit_current">Редактировать текущий пакет</string>
+	<string name="editor_new_pack">Создать новый пакет</string>
+	<string name="editor_download_mods">Скачать моды</string>
+	<string name="editor_pack_info">Пакет</string>
+	<string name="editor_author">Автор</string>
+	<string name="editor_edit_author">Изменить автора</string>
+	<string name="editor_tracks">Трассы</string>
+	<string name="editor_rename_pack">Переименовать пакет</string>
+	<string name="editor_add_track">Добавить трассу</string>
+	<string name="editor_save_pack">Сохранить пакет</string>
+	<string name="editor_use_pack">Сохранить и использовать пакет</string>
+	<string name="editor_track_points">Точки</string>
+	<string name="editor_start_finish">Точки старта / финиша</string>
+	<string name="editor_edit_track">Редактировать трассу</string>
+	<string name="editor_rename_track">Переименовать трассу</string>
+	<string name="editor_move_track">Переместить в сложность</string>
+	<string name="editor_move_up">Переместить выше</string>
+	<string name="editor_move_down">Переместить ниже</string>
+	<string name="editor_duplicate_track">Дублировать трассу</string>
+	<string name="editor_delete_track">Удалить трассу</string>
+	<string name="editor_delete_confirmation">Удалить эту трассу?</string>
+	<string name="editor_cannot_delete_last">В категориях «Легко», «Средне» и «Сложно» должна оставаться хотя бы одна трасса.</string>
+	<string name="editor_choose_difficulty">Выберите сложность</string>
+	<string name="editor_new_track">Новая трасса</string>
+	<string name="editor_canvas_hint">Выбор: перемещайте точки и панорамируйте. Добавление: нажмите для вставки. Удаление: нажмите точку. Масштаб: сведите или разведите пальцы.</string>
+	<string name="editor_select_mode">Выбор / перемещение</string>
+	<string name="editor_add_mode">Добавить точку</string>
+	<string name="editor_delete_mode">Удалить точку</string>
+	<string name="editor_set_start">Задать старт</string>
+	<string name="editor_set_finish">Задать финиш</string>
+	<string name="editor_zoom_in">Увеличить</string>
+	<string name="editor_zoom_out">Уменьшить</string>
+	<string name="editor_fit">Вписать трассу</string>
+	<string name="editor_save_track">Сохранить изменения трассы</string>
+	<string name="editor_select_point_first">Сначала выберите точку.</string>
+	<string name="editor_start_before_finish">Старт должен быть раньше финиша.</string>
+	<string name="editor_finish_after_start">Финиш должен быть позже старта.</string>
+	<string name="editor_library_hint">Ищет отдельные трассы во всех установленных пакетах. Сначала скачайте пакеты в разделе «Моды», после этого их трассы станут доступны здесь.</string>
+	<string name="editor_search_for">Поиск</string>
+	<string name="editor_search_title">Название трассы</string>
+	<string name="editor_new_search">Новый поиск</string>
+	<string name="editor_no_tracks_found">Подходящих трасс не найдено.</string>
+	<string name="editor_too_many_tracks">В этой категории уже максимальное количество трасс.</string>
+	<string name="editor_no_pack">Не удалось загрузить пакет.</string>
+	<string name="editor_saved">Сохранено</string>
+	<string name="editor_saved_text">Изменения сохранены в игре.</string>
+	<string name="editor_saved_restart">Изменения сохранены. Текущий пакет будет перезагружен после перезапуска.</string>
+
+	<string name="highscores">Рекорды</string>
+	<string name="finished">Финиш!</string>
+	<string name="ingame">Игра</string>
+	<string name="enter_name">Введите имя</string>
+	<string name="confirm_clear">Подтвердите очистку</string>
+	<string name="confirm_reset">Подтвердите сброс</string>
+	<string name="level">Уровень</string>
+	<string name="track">Трасса</string>
+	<string name="league">Лига</string>
+	<string name="restart">Заново</string>
+	<string name="restart_with_new_level">Начать с новым уровнем</string>
+	<string name="send_logs">Отправить логи</string>
+	<string name="next">Далее</string>
+	<string name="_continue">Продолжить</string>
+	<string name="name">Имя</string>
+	<string name="time">Время</string>
+
+	<string name="perspective">Перспектива</string>
+	<string name="shadows">Тени</string>
+	<string name="driver_sprite">Спрайт водителя</string>
+	<string name="bike_sprite">Спрайт мотоцикла</string>
+	<string name="input">Управление</string>
+	<string name="look_ahead">Опережение камеры</string>
+	<string name="vibrate_on_touch">Вибрация при касании</string>
+	<string name="keyboard_in_menu">Клавиатура в меню</string>
+	<string name="language">Язык</string>
+	<string name="clear_highscore">Очистить рекорды</string>
+	<string name="full_reset">Полный сброс</string>
+	<string name="reset">Сброс</string>
+	<string name="reset_text">Полный сброс. Приложение будет перезапущено.</string>
+
+	<string name="installed_mods">Установленные моды</string>
+	<string name="download_mods">Скачать моды</string>
+	<string name="download_options">Настройки загрузки</string>
+	<string name="install_mrg">Установить levels.mrg</string>
+	<string name="installed_levels_text">Здесь можно управлять установленными уровнями.</string>
+	<string name="download_levels_text">Здесь можно скачивать и устанавливать новые уровни.</string>
+
+	<string name="cleared">Очищено</string>
+	<string name="cleared_text">Рекорды очищены.</string>
+	<string name="erase_text1">Очистку рекордов нельзя отменить. Все сохранённые времена на всех трассах будут удалены.</string>
+	<string name="erase_text2">Очистить рекорды?</string>
+	<string name="reset_text1">Полный сброс нельзя отменить. Все трассы и лиги будут заблокированы, а настройки возвращены к значениям по умолчанию. После этого приложение будет перезапущено.</string>
+	<string name="reset_text2">Выполнить полный сброс?</string>
+
+	<string name="objective">Цель</string>
+	<string name="objective_text">Доберитесь до финиша как можно быстрее и не разбейтесь. Наклоняйте мотоцикл вперёд и назад, чтобы изменять его вращение. После прыжка старайтесь приземляться на оба колеса — так мотоцикл меньше рискует разбиться. Будьте осторожны: трассы постепенно становятся всё сложнее.</string>
+
+	<string name="keys">Клавиши</string>
+	<string name="keyset_text"><![CDATA[
+		<b>Набор клавиш 1</b><br/>
+		2 — газ, 8 — тормоз, 6 — наклон вперёд, 4 — наклон назад. 1 — газ и наклон назад. 3 — газ и наклон вперёд. 7 — тормоз и наклон назад. 9 — тормоз и наклон вперёд.<br/><br/>
+		<b>Набор клавиш 2</b><br/>
+		1 — газ, 4 — тормоз, 6 — наклон вперёд, 5 — наклон назад.<br/><br/>
+		<b>Набор клавиш 3</b><br/>
+		3 — газ, 6 — тормоз, 5 — наклон вперёд, 4 — наклон назад.
+	]]></string>
+
+	<string name="unlocking">Открытие трасс</string>
+	<string name="unlocking_text">Проходите более лёгкие уровни, чтобы открывать новые. Вы также получите доступ к более высоким лигам, где доступны более совершенные мотоциклы с разными характеристиками.</string>
+
+	<string name="highscore_text">Три лучших времени каждой трассы сохраняются отдельно для каждой лиги. При улучшении результата игра попросит ввести ваше имя. Рекорды можно просматривать из меню игры. Нажимайте влево и вправо в окне рекордов, чтобы переключать лиги. Очистить рекорды можно в настройках.</string>
+	<string name="no_highscores">Рекордов нет</string>
+
+	<string name="options_text"><![CDATA[
+		<b>Перспектива: вкл./выкл.</b><br/>
+		По умолчанию: &lt;Вкл.&gt;<br/>
+		Включает или выключает перспективное отображение трассы.<br/><br/>
+
+		<b>Тени: вкл./выкл.</b><br/>
+		По умолчанию: &lt;Вкл.&gt;<br/>
+		Включает или выключает тени.<br/><br/>
+
+		<b>Спрайт водителя: вкл./выкл.</b><br/>
+		По умолчанию: &lt;Вкл.&gt;<br/>
+		&lt;Вкл.&gt; использует текстуру водителя. &lt;Выкл.&gt; использует линии.<br/><br/>
+
+		<b>Спрайт мотоцикла: вкл./выкл.</b><br/>
+		По умолчанию: &lt;Вкл.&gt;<br/>
+		&lt;Вкл.&gt; использует текстуру мотоцикла. &lt;Выкл.&gt; использует линии.<br/><br/>
+
+		<b>Управление: набор 1, 2, 3</b><br/>
+		По умолчанию: &lt;1&gt;<br/>
+		Определяет используемый тип управления. Подробнее — в разделе «Клавиши».<br/><br/>
+
+		<b>Опережение камеры: вкл./выкл.</b><br/>
+		По умолчанию: &lt;Вкл.&gt;<br/>
+		Включает или выключает интеллектуальное движение камеры.<br/><br/>
+
+		<b>Вибрация при касании: вкл./выкл.</b><br/>
+		По умолчанию: &lt;Вкл.&gt;<br/>
+		Включает тактильную отдачу при нажатии клавиш управления.<br/><br/>
+
+		<b>Клавиатура в меню: вкл./выкл.</b><br/>
+		По умолчанию: &lt;Вкл.&gt;<br/>
+		Включает или выключает клавиатуру в меню.<br/><br/>
+
+		<b>Язык</b><br/>
+		Выберите язык интерфейса игры.<br/><br/>
+
+		<b>Очистить рекорды</b><br/>
+		Позволяет удалить рекорды. Здесь же можно выполнить «Полный сброс», который вернёт игру в исходное состояние: очистит настройки, рекорды, открытые трассы и лиги.
+	]]></string>
+	<string name="about_text"><![CDATA[
+		<b>Gravity Defied Classic</b> — портирована на Android Gregory Klyushnikov и Eugene Zinoviev<br/>
+		Кузница винрара<br/>
+		Happy Santa LLC<br/>
+		http://gdtr.net © 2014<br/><br/>
+
+		<b>Gravity Defied - Trial Racing</b> — Codebrew Software<br/>
+		http://codebrew.se © 2004
+		]]></string>
+	<string name="ported_text"><![CDATA[
+		<font color="#999999">Портировали:</font><br/>
+		<font color="#000000">Кузница винрара</font><br/>
+		<font color="#999999">и</font><br/>
+		<font color="#000000">Happy Santa LLC</font>
+	]]></string>
+
+	<string name="crashed">Разбились</string>
+	<string name="wheelie">Вилли!</string>
+	<string name="finished1">Финиш</string>
+	<string name="enjoy">Удачи...</string>
+	<string name="congratulations">Поздравляем! Вы открыли новую лигу: </string>
+	<string name="league_unlocked">Лига открыта</string>
+	<string name="league_unlocked_text">Вы открыли новую лигу: </string>
+	<string name="level_completed_text">Вы прошли все трассы этого уровня.</string>
+	<string name="complete_to_unlock">Пройдите больше трасс, чтобы открыть эту комбинацию трассы и лиги.</string>
+	<string name="tracks_completed_tpl"><![CDATA[%1$d из %2$d трасс в категории <b>%3$s</b> пройдено.]]></string>
+
+	<string name="LEAGUE">ЛИГА</string>
+
+	<string-array name="finished_places">
+		<item>Первое место!</item>
+		<item>Второе место!</item>
+		<item>Третье место!</item>
+	</string-array>
+
+	<string-array name="on_off">
+		<item>Вкл.</item>
+		<item>Выкл.</item>
+	</string-array>
+
+	<string-array name="languages">
+		<item>Английский</item>
+		<item>Русский</item>
+	</string-array>
+
+	<string-array name="keyset">
+		<item>Набор 1</item>
+		<item>Набор 2</item>
+		<item>Набор 3</item>
+	</string-array>
+
+	<string-array name="leagues">
+		<item>100cc</item>
+		<item>175cc</item>
+		<item>220cc</item>
+	</string-array>
+
+	<string-array name="leagues_full">
+		<item>100cc</item>
+		<item>175cc</item>
+		<item>220cc</item>
+		<item>325cc</item>
+	</string-array>
+
+	<string-array name="difficulty">
+		<item>Легко</item>
+		<item>Средне</item>
+		<item>Сложно</item>
+		<item>Бесконечный</item>
+	</string-array>
+
+	<string name="download_error">Не удалось получить список уровней.</string>
+	<string name="no_internet_connection">Нет подключения к интернету</string>
+	<string name="waiting_for_network">Ожидание подключения к сети…</string>
+	<string name="levels_count_tpl"><![CDATA[%1$s <font color="#909090">(%2$s)</font>]]></string>
+	<string name="active_name_tpl"><![CDATA[%1$s <font color="#00a000">(Активен)</font>]]></string>
+
+	<string name="sort_by">Сортировка:</string>
+	<string-array name="sort_variants">
+		<item>Популярность</item>
+		<item>Новизна</item>
+		<item>Сначала старые</item>
+		<item>Количество трасс</item>
+	</string-array>
+
+	<string name="author_tpl"><![CDATA[<font color="#888888">Автор:</font> %1$s]]></string>
+	<string name="added_tpl"><![CDATA[<font color="#888888">Добавлено:</font> %1$s]]></string>
+	<string name="installed_tpl"><![CDATA[<font color="#888888">Установлено:</font> %1$s]]></string>
+	<string name="tracks_tpl"><![CDATA[<font color="#888888">Трассы:</font> %1$s]]></string>
+	<string name="install_kb">Установить (%1$s КБ)</string>
+	<string name="install">Установить</string>
+	<string name="installing">Установка…</string>
+	<string name="load_this_game">Загрузить эту игру</string>
+	<string name="enter_levels_name_title">Название уровней</string>
+	<string name="enter_levels_name">Введите название пакета уровней:</string>
+	<string name="error">Ошибка</string>
+	<string name="oops">Упс…</string>
+	<string name="please_wait">Пожалуйста, подождите…</string>
+	<string name="success">Успешно</string>
+	<string name="successfully_installed">Уровни успешно установлены.</string>
+	<string name="open_installed">Открыть установленные</string>
+	<string name="installed">Установлено</string>
+	<string name="delete">Удалить</string>
+	<string name="deleting">Удаление…</string>
+	<string name="downloading">Загрузка…</string>
+	<string name="delete_levels">Удалить уровни</string>
+	<string name="delete_levels_confirmation">Удалить эти уровни? Это действие нельзя отменить.</string>
+	<string name="active">Активен</string>
+	<string name="unlock_next">Открыть следующий уровень</string>
+
+	<string name="e_external_storage_is_not_readable">Внешнее хранилище недоступно для чтения.</string>
+	<string name="e_downloading_was_interrupted">Загрузка прервана.</string>
+	<string name="e_no_space_left">На устройстве недостаточно места.</string>
+	<string name="e_cannot_save_level">Не удалось сохранить уровень в базу данных.</string>
+	<string name="e_no_network_connection">Нет подключения к сети.</string>
+	<string name="e_level_damaged">Похоже, этот уровень повреждён.\nМожно пропустить его и открыть следующий уровень.</string>
+
+</resources>
