@@ -937,10 +937,7 @@ public class Physics {
 
 	private void _caIV(int j) {
 		k k1;
-		SimpleMenuElement n1;
-		int push = m_penetrationI > 0 ? m_penetrationI + 3276 : 3276;
-		(n1 = (k1 = m_Hak[m_xaI]).m_ifan[j]).x += (int) ((long) m_EI * (long) push >> 16);
-		n1.y += (int) ((long) m_CI * (long) push >> 16);
+		SimpleMenuElement n1 = (k1 = m_Hak[m_xaI]).m_ifan[j];
 		int i1;
 		int j1;
 		int l1;
@@ -973,6 +970,9 @@ public class Physics {
 		}
 		m_EI = (int) (((long) m_EI << 32) / (long) k2 >> 16);
 		m_CI = (int) (((long) m_CI << 32) / (long) k2 >> 16);
+		int push = m_penetrationI > 0 ? m_penetrationI + 3276 : 3276;
+		n1.x += (int) ((long) m_EI * (long) push >> 16);
+		n1.y += (int) ((long) m_CI * (long) push >> 16);
 		int l2 = n1.m_eI;
 		int i3 = n1.m_dI;
 		int j3 = -((int) ((long) l2 * (long) m_EI >> 16) + (int) ((long) i3 * (long) m_CI >> 16));
@@ -1351,7 +1351,8 @@ public class Physics {
 			for (int i = 0; i < 6; i++)
 				m_aaan[i].y -= 0x10000;
 		}
-		int i1 = m_aaan[3].x - m_aaan[4].x;
+		try {
+			int i1 = m_aaan[3].x - m_aaan[4].x;
 		int j1 = m_aaan[3].y - m_aaan[4].y;
 		int k1;
 		if ((k1 = _doIII(i1, j1)) != 0) {
@@ -1388,10 +1389,12 @@ public class Physics {
 		_ifiIIV(j, i1, j1, l1, i2);
 		if (!m_UZ)
 			_aiIIV(j, i1, j1, l1, i2);
-		m_lf._aiV(j);
-		if (perspectiveRenderOffset) {
-			for (int i = 0; i < 6; i++)
-				m_aaan[i].y += 0x10000;
+			m_lf._aiV(j);
+		} finally {
+			if (perspectiveRenderOffset) {
+				for (int i = 0; i < 6; i++)
+					m_aaan[i].y += 0x10000;
+			}
 		}
 	}
 
