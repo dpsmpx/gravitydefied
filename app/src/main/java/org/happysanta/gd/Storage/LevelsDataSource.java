@@ -29,13 +29,14 @@ public class LevelsDataSource {
 		dbHelper.close();
 	}
 
-	public synchronized Level createLevel(String name, String author, int countEasy, int countMedium, int countHard, long addedTs, long installedTs, boolean isDefault, long apiId) {
+	public synchronized Level createLevel(String name, String author, int countEasy, int countMedium, int countHard, int countEndless, long addedTs, long installedTs, boolean isDefault, long apiId) {
 		ContentValues values = new ContentValues();
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_NAME, name);
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_AUTHOR, author);
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_COUNT_EASY, countEasy);
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_COUNT_MEDIUM, countMedium);
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_COUNT_HARD, countHard);
+		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_COUNT_ENDLESS, countEndless);
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_ADDED, addedTs);
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_INSTALLED, installedTs);
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_IS_DEFAULT, isDefault ? 1 : 0);
@@ -43,6 +44,7 @@ public class LevelsDataSource {
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_UNLOCKED_EASY, 0);
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_UNLOCKED_MEDIUM, 0);
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_UNLOCKED_HARD, 0);
+		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_UNLOCKED_ENDLESS, 0);
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_SELECTED_TRACK, 0);
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_SELECTED_LEVEL, 0);
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_SELECTED_LEAGUE, 0);
@@ -93,6 +95,7 @@ public class LevelsDataSource {
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_UNLOCKED_EASY, level.getUnlockedEasy());
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_UNLOCKED_MEDIUM, level.getUnlockedMedium());
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_UNLOCKED_HARD, level.getUnlockedHard());
+		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_UNLOCKED_ENDLESS, level.getUnlockedEndless());
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_SELECTED_LEAGUE, level.getSelectedLeague());
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_SELECTED_LEVEL, level.getSelectedLevel());
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_SELECTED_TRACK, level.getSelectedTrack());
@@ -248,7 +251,8 @@ public class LevelsDataSource {
 		level.setCount(
 				cursor.getInt(cursor.getColumnIndex(LevelsSQLiteOpenHelper.LEVELS_COLUMN_COUNT_EASY)),
 				cursor.getInt(cursor.getColumnIndex(LevelsSQLiteOpenHelper.LEVELS_COLUMN_COUNT_MEDIUM)),
-				cursor.getInt(cursor.getColumnIndex(LevelsSQLiteOpenHelper.LEVELS_COLUMN_COUNT_HARD)));
+				cursor.getInt(cursor.getColumnIndex(LevelsSQLiteOpenHelper.LEVELS_COLUMN_COUNT_HARD)),
+				cursor.getInt(cursor.getColumnIndex(LevelsSQLiteOpenHelper.LEVELS_COLUMN_COUNT_ENDLESS)));
 		level.setAddedTs(cursor.getLong(cursor.getColumnIndex(LevelsSQLiteOpenHelper.LEVELS_COLUMN_ADDED)));
 		level.setInstalledTs(cursor.getLong(cursor.getColumnIndex(LevelsSQLiteOpenHelper.LEVELS_COLUMN_INSTALLED)));
 		level.setIsDefault(cursor.getInt(cursor.getColumnIndex(LevelsSQLiteOpenHelper.LEVELS_COLUMN_IS_DEFAULT)) == 1);
@@ -256,7 +260,8 @@ public class LevelsDataSource {
 		level.setUnlocked(
 				cursor.getInt(cursor.getColumnIndex(LevelsSQLiteOpenHelper.LEVELS_COLUMN_UNLOCKED_EASY)),
 				cursor.getInt(cursor.getColumnIndex(LevelsSQLiteOpenHelper.LEVELS_COLUMN_UNLOCKED_MEDIUM)),
-				cursor.getInt(cursor.getColumnIndex(LevelsSQLiteOpenHelper.LEVELS_COLUMN_UNLOCKED_HARD)));
+				cursor.getInt(cursor.getColumnIndex(LevelsSQLiteOpenHelper.LEVELS_COLUMN_UNLOCKED_HARD)),
+				cursor.getInt(cursor.getColumnIndex(LevelsSQLiteOpenHelper.LEVELS_COLUMN_UNLOCKED_ENDLESS)));
 		level.setSelectedLevel(cursor.getInt(cursor.getColumnIndex(LevelsSQLiteOpenHelper.LEVELS_COLUMN_SELECTED_LEVEL)));
 		level.setSelectedTrack(cursor.getInt(cursor.getColumnIndex(LevelsSQLiteOpenHelper.LEVELS_COLUMN_SELECTED_TRACK)));
 		level.setSelectedLeague(cursor.getInt(cursor.getColumnIndex(LevelsSQLiteOpenHelper.LEVELS_COLUMN_SELECTED_LEAGUE)));
