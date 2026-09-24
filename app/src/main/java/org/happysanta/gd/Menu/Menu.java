@@ -1132,7 +1132,6 @@ public class Menu
 			else gd.hideKeyboardLayout();
 		}
 		if (item == perspectiveOptionItem) {
-			gd.physEngine._aZV(perspectiveOptionItem.getSelectedOption() == 0);
 			getLevelLoader().setPerspectiveEnabled(perspectiveOptionItem.getSelectedOption() == 0);
 			Settings.setPerspectiveEnabled(perspectiveOptionItem.getSelectedOption() == 0);
 			return;
