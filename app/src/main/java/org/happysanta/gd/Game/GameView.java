@@ -236,6 +236,18 @@ public class GameView extends View {
 		drawBitmap(b, x, y, canvas);
 	}
 
+	public int saveCanvas() {
+		return canvas.save();
+	}
+
+	public void translateCanvas(float x, float y) {
+		canvas.translate(x, y);
+	}
+
+	public void restoreCanvas(int saveCount) {
+		canvas.restoreToCount(saveCount);
+	}
+
 	public void drawBitmap(Bitmap b, float x, float y, Canvas g) {
 		Paint paint = null;
 		if (!isSDK11OrHigher()) {
