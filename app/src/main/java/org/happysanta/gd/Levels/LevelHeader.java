@@ -2,9 +2,9 @@ package org.happysanta.gd.Levels;
 
 public class LevelHeader {
 
-	private int pointers[][] = new int[3][];
-	private String names[][] = new String[3][];
-	private int counts[] = new int[3];
+	private int pointers[][] = new int[4][];
+	private String names[][] = new String[4][];
+	private int counts[] = new int[4];
 
 	public LevelHeader() {
 	}
@@ -42,7 +42,7 @@ public class LevelHeader {
 	}
 
 	public boolean isCountsOk() {
-		for (int i = 0; i < counts.length; i++) {
+		for (int i = 0; i < 3; i++) {
 			if (counts[i] <= 0)
 				return false;
 		}
