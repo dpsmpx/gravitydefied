@@ -119,9 +119,9 @@ public class LevelMenuElement
 	public void updateLevelsLine() {
 		if (showDate) {
 			tracksCountTextView.setText(Html.fromHtml(String.format(getString(R.string.levels_count_tpl),
-					level.getCountEasy() + " - " + level.getCountMedium() + " - " + level.getCountHard() + " - " + level.getCountEndless(), level.getShortAddedDate())));
+					level.getCountEasy() + " - " + level.getCountMedium() + " - " + level.getCountHard() + " - " + level.getCountEndless() + " - " + level.getCountEndless(), level.getShortAddedDate())));
 		} else {
-			tracksCountTextView.setText(level.getCountEasy() + " - " + level.getCountMedium() + " - " + level.getCountHard());
+			tracksCountTextView.setText(level.getCountEasy() + " - " + level.getCountMedium() + " - " + level.getCountHard() + " - " + level.getCountEndless());
 		}
 	}
 
@@ -233,7 +233,7 @@ public class LevelMenuElement
 			screen.addItem(new BigTextMenuElement(Html.fromHtml(String.format(getString(R.string.installed_tpl), level.getFullInstalledDate()))));
 		else if (level.getAddedTs() > 0)
 			screen.addItem(new BigTextMenuElement(Html.fromHtml(String.format(getString(R.string.added_tpl), level.getFullAddedDate()))));
-		screen.addItem(new BigTextMenuElement(Html.fromHtml(String.format(getString(R.string.tracks_tpl), level.getCountEasy() + " / " + level.getCountMedium() + " / " + level.getCountHard()))));
+		screen.addItem(new BigTextMenuElement(Html.fromHtml(String.format(getString(R.string.tracks_tpl), level.getCountEasy() + " / " + level.getCountMedium() + " / " + level.getCountHard() + " / " + level.getCountEndless()))));
 		screen.addItem(menu.createEmptyLine(true));
 
 		if (!level.isInstalled()) {
