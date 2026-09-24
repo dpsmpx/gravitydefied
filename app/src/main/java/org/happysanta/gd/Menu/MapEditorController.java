@@ -388,7 +388,7 @@ public class MapEditorController {
         libraryScreen.addItem(new EditorActionMenuElement(getString(R.string.editor_new_search), this::searchTracks));
         libraryScreen.addItem(new EditorActionMenuElement(getString(R.string.editor_download_mods), this::openModsFromLibrary));
         libraryScreen.addItem(new EditorActionMenuElement(getString(R.string.install_mrg), this::importMrg));
-        libraryScreen.addItem(new ActionMenuElement(getString(R.string.back), ActionMenuElement.BACK, packScreen));
+        libraryScreen.addItem(new EditorActionMenuElement(getString(R.string.back), () -> show(packScreen)));
     }
 
     private ArrayList<TrackRef> findTracks(String query) {
