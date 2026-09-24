@@ -248,9 +248,17 @@ public class GameView extends View {
 	}
 
 	public static void _dovV() {
-		m_vcI += 655;
+		_dovV(1310);
+	}
+
+	public static void _dovV(int simulationUnits) {
+		if (simulationUnits <= 0) {
+			return;
+		}
+		int animationStep = Math.max(1, (int) ((655L * simulationUnits + 655L / 2L) / 1310L));
+		m_vcI += animationStep;
 		int j = 32768 + ((FPMath.sin(m_vcI) >= 0 ? FPMath.sin(m_vcI) : -FPMath.sin(m_vcI)) >> 1);
-		m_VI += (int) (6553L * (long) j >> 16);
+		m_VI += (int) (6553L * (long) j * simulationUnits / 1310L >> 16);
 	}
 
 	/*
