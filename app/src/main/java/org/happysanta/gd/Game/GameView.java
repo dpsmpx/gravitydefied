@@ -6,6 +6,7 @@ import org.happysanta.gd.Command;
 import org.happysanta.gd.GDActivity;
 import org.happysanta.gd.Global;
 import org.happysanta.gd.Menu.Menu;
+import org.happysanta.gd.Storage.Replay;
 import org.happysanta.gd.Menu.MenuScreen;
 import org.happysanta.gd.Menu.SimpleMenuElement;
 
@@ -40,6 +41,7 @@ public class GameView extends View {
 	private int m_XI;
 	private int m_BI;
 	private Physics physEngine;
+	private Replay ghostReplay;
 	private int m_TI;
 	private int m_QI;
 	private GDActivity activity;
@@ -383,6 +385,54 @@ public class GameView extends View {
 		physEngine._caseIV(m_abI >= m_dI ? m_dI : m_abI);
 	}
 
+	public void setGhostReplay(Replay replay) {
+		ghostReplay = replay;
+	}
+
+	public Replay getGhostReplay() {
+		return ghostReplay;
+	}
+
+	private Replay.Frame getGhostFrame() {
+		if (ghostReplay == null || ghostReplay.isEmpty()) {
+			return null;
+		}
+		long elapsed = getGDActivity().getRaceElapsedMillis();
+		if (elapsed < 0L) {
+			return null;
+		}
+		return ghostReplay.getFrameAt(elapsed);
+	}
+
+	private void drawGhost(Replay.Frame frame) {
+		if (frame == null || canvas == null) {
+			return;
+		}
+
+		int previousAlpha = paint.getAlpha();
+		Paint.Style previousStyle = paint.getStyle();
+		int previousColor = paint.getColor();
+
+		paint.setColor(0xff2878b5);
+		paint.setAlpha(82);
+		paint.setStyle(Paint.Style.STROKE);
+		paint.setStrokeWidth(3f);
+
+		drawLine(frame.x[2], frame.y[2], frame.x[0], frame.y[0]);
+		drawLine(frame.x[0], frame.y[0], frame.x[1], frame.y[1]);
+		drawLine(frame.x[0], frame.y[0], frame.x[3], frame.y[3]);
+		drawLine(frame.x[0], frame.y[0], frame.x[4], frame.y[4]);
+		drawLine(frame.x[3], frame.y[3], frame.x[4], frame.y[4]);
+		drawLine(frame.x[5], frame.y[5], frame.x[0], frame.y[0]);
+
+		drawLineWheel((frame.x[1] << 2) / (float) 0xFFFF, (frame.y[1] << 2) / (float) 0xFFFF, 9);
+		drawLineWheel((frame.x[2] << 2) / (float) 0xFFFF, (frame.y[2] << 2) / (float) 0xFFFF, 9);
+
+		paint.setColor(previousColor);
+		paint.setAlpha(previousAlpha);
+		paint.setStyle(previousStyle);
+	}
+
 	public void setMenu(Menu menu) {
 		this.menu = menu;
 	}
@@ -695,6 +745,9 @@ public class GameView extends View {
 			physEngine._voidvV();
 			_doIIV(-physEngine._elsevI() + m_TI + m_abI / 2, physEngine._ifvI() + m_QI + m_dI / 2);
 			physEngine._ifiV(this);
+			if (!gd.isMenuShown()) {
+				drawGhost(getGhostFrame());
+			}
 			if (drawTimer) {
 				long time = 0, finished;
 				if (gd.startedTime > 0) {
