@@ -331,7 +331,7 @@ public class MapEditorController {
         }
 
         Track copy = tracks.get(workingTrack).copy();
-        copy.name = uniqueTrackName(copy.name + " Copy");
+        copy.name = uniqueTrackName(copy.name + " " + getString(R.string.editor_copy_suffix));
         tracks.add(workingTrack + 1, copy);
         showTrack(workingGroup, workingTrack + 1);
     }
