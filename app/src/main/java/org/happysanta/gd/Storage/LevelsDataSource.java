@@ -99,6 +99,7 @@ public class LevelsDataSource {
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_COUNT_MEDIUM, level.getCountMedium());
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_COUNT_HARD, level.getCountHard());
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_COUNT_ENDLESS, level.getCountEndless());
+		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_SIZE, level.getSize());
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_ADDED, level.getAddedTs());
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_INSTALLED, level.getInstalledTs());
 		values.put(LevelsSQLiteOpenHelper.LEVELS_COLUMN_IS_DEFAULT, level.isDefault() ? 1 : 0);
