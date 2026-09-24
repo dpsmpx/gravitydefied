@@ -42,7 +42,7 @@ public class Menu
 	// byte leaguesUnlockedCount = 0;
 	// byte levelsUnlockedCount = 0;
 	int[] selectedTrack = {
-			0, 0, 0
+			0, 0, 0, 0
 	};
 	String[][] trackNames;
 	String[] leagues = new String[3];
@@ -231,11 +231,12 @@ public class Menu
 				if (isNameCheat(nameChars)) {
 					// Unlock everything for cheat
 					level.setUnlockedLeagues(3);
-					level.setUnlockedLevels(2);
+					level.setUnlockedLevels(3);
 					level.setUnlocked(
 							loader.names[0].length - 1,
 							loader.names[1].length - 1,
-							loader.names[2].length - 1
+							loader.names[2].length - 1,
+							loader.names[3].length - 1
 					);
 					// logDebug(level);
 					// leaguesUnlockedCount = 3;
