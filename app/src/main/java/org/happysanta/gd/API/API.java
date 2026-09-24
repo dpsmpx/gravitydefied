@@ -1,6 +1,7 @@
 package org.happysanta.gd.API;
 
 import android.util.Pair;
+import org.happysanta.gd.Global;
 
 import java.io.*;
 import java.util.LinkedList;
@@ -10,9 +11,9 @@ import static org.happysanta.gd.Helpers.getDeviceName;
 
 public class API {
 
-	public static final String URL = "http://gdtr.net/api.php";
-	public static final String DEBUG_URL = "http://dev.gdtr.net/api.php";
-	public static final String MRG_URL = "http://gdtr.net/mrg/%d.mrg";
+	public static final String URL = "https://gdtr.net/api.php";
+	public static final String DEBUG_URL = "https://dev.gdtr.net/api.php";
+	public static final String MRG_URL = "https://gdtr.net/mrg/%d.mrg";
 	public static final int VERSION = 2;
 
 	public static Request getLevels(int offset, int limit, LevelsSortType sort, ResponseHandler handler)
@@ -43,7 +44,7 @@ public class API {
 		List<Pair<String, String>> params = new LinkedList<Pair<String, String>>();
 		params.add(new Pair<String, String>("log", log));
 		params.add(new Pair<String, String>("device", getDeviceName()));
-		return new Request("sendKeyboardLogs", params, handler, true);
+		return new Request("sendKeyboardLogs", params, handler, Global.DEBUG);
 	}
 
 	public static DownloadFile downloadMrg(long id, FileOutputStream output, DownloadHandler handler) {

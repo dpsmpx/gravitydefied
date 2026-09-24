@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.os.StatFs;
 import org.happysanta.gd.API.API;
 import org.happysanta.gd.API.DownloadFile;
@@ -209,6 +208,30 @@ public class LevelsManager {
 				temp.delete();
 			}
 		}
+	}
+
+	public void installAsync(Uri uri, String name, String author, long apiId, final DoubleCallback callback) {
+		GDActivity gd = getGDActivity();
+		final ProgressDialog progressDialog = ProgressDialog.show(gd, getString(R.string.install), getString(R.string.installing), true);
+
+		new AsyncInstallLevel() {
+			@Override
+			protected void onPostExecute(Object result) {
+				progressDialog.dismiss();
+
+				if (result instanceof Throwable) {
+					Throwable throwable = (Throwable) result;
+					throwable.printStackTrace();
+					showAlert(getString(R.string.error), throwable.getMessage(), null);
+					if (callback != null)
+						callback.onFail();
+					return;
+				}
+
+				if (callback != null)
+					callback.onDone((long) result);
+			}
+		}.execute(uri, name, author, apiId);
 	}
 
 	public void installAsync(File file, String name, String author, long apiId, final DoubleCallback callback) {
