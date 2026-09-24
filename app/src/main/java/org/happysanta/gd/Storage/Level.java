@@ -24,7 +24,6 @@ public class Level {
 
 	public Level() {
 		count = new int[4];
-		count[3] = 1;
 		unlocked = new int[4];
 	}
 
@@ -37,7 +36,7 @@ public class Level {
 		this.name = name;
 		this.author = author;
 		this.count = new int[]{
-				countEasy, countMedium, countHard, 1
+				countEasy, countMedium, countHard, 0
 		};
 		this.addedTs = addedTs;
 		this.size = size;
