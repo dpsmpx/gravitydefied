@@ -1093,8 +1093,6 @@ public class GDActivity extends Activity implements Runnable {
 				menuTitleTextView.setVisibility(android.view.View.GONE);
 				scrollView.setVisibility(android.view.View.GONE);
 
-				// Clear menu
-				scrollView.removeAllViews();
 				menuTitleTextView.setText("");
 				menu.menuDisabled = true;
 				// menu.currentMenu = null;
