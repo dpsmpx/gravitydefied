@@ -185,6 +185,7 @@
 		<item>Easy</item>
 		<item>Medium</item>
 		<item>Hard</item>
+		<item>Endless</item>
 	</string-array>
 
 	<string name="download_error">Cannot download levels list.</string>
