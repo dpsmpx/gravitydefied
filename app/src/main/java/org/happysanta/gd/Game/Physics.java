@@ -7,6 +7,7 @@ package org.happysanta.gd.Game;
 
 import org.happysanta.gd.Levels.Loader;
 import org.happysanta.gd.Menu.SimpleMenuElement;
+import org.happysanta.gd.Storage.Replay;
 
 import static org.happysanta.gd.Helpers.getGDActivity;
 import static org.happysanta.gd.Helpers.getLevelLoader;
@@ -211,6 +212,8 @@ public class Physics {
 	private final int leftWheelUpdatingFrequency = 20;
 	private long leftWheelLastUpdated = 0;
 	private int leftWheelParams[][];
+	private int replayInputX;
+	private int replayInputY;
 
 	public Physics(Loader f1) {
 		m_vaI = 0;
@@ -258,6 +261,8 @@ public class Physics {
 		m_IZ = false;
 
 		leftWheelParams = new int[5][4];
+		replayInputX = 0;
+		replayInputY = 0;
 	}
 
 	public static int _doIII(int j, int i1) {
@@ -496,10 +501,14 @@ public class Physics {
 	}
 
 	public void _nullvV() {
+		replayInputX = 0;
+		replayInputY = 0;
 		m_ifZ = m_sZ = m_rZ = m_OZ = false;
 	}
 
 	public void _aIIV(int j, int i1) {
+		replayInputX = j;
+		replayInputY = i1;
 		if (!m_vZ) {
 			m_ifZ = m_sZ = m_rZ = m_OZ = false;
 			if (j > 0)
@@ -1036,6 +1045,28 @@ public class Physics {
 			m_Hak[0].m_ifan[5].m_eI = m_Hak[0].m_ifan[m_vaI].m_eI;
 			m_Hak[0].m_ifan[5].m_dI = m_Hak[0].m_ifan[m_vaI].m_dI;
 			m_Hak[2].m_ifan[5].m_gotoI = m_Hak[2].m_ifan[m_vaI].m_gotoI;
+		}
+	}
+
+	public int getReplayInputX() {
+		return replayInputX;
+	}
+
+	public int getReplayInputY() {
+		return replayInputY;
+	}
+
+	public void copyReplayState(Replay.Frame frame) {
+		if (frame == null) {
+			return;
+		}
+		synchronized (m_Hak) {
+			for (int part = 0; part < 6; part++) {
+				SimpleMenuElement state = m_Hak[part].m_ifan[m_vaI];
+				frame.x[part] = state.x;
+				frame.y[part] = state.y;
+				frame.angle[part] = state.m_bI;
+			}
 		}
 	}
 
